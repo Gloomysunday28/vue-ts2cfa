@@ -1,0 +1,37 @@
+{
+  "name": "@kvinc/vue-component-api-command-tool",
+  "version": "0.0.1-alpha",
+  "description": "Tool for changing vue-property-decorator to component-function-api",
+  "main": "./lib/index.js",
+  "bin": {
+    "vts2cfa": "./lib/index.js"
+  },
+  "target": "node",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": [
+    "lib"
+  ],
+  "homepage": "https://github.com/Gloomysunday28/vue-ts2cfa.git",
+  "bugs": {
+    "url": "https://github.com/Gloomysunday28/vue-ts2cfa/issues",
+    "email": "459953103@qq.com"
+  },
+  "keywords": [
+    "vue2tovue3",
+    "vue2",
+    "vue3",
+    "component-api"
+  ],
+  "author": {
+    "name": "Martin",
+    "email": "459953103@qq.com"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.14.8",
+    "chalk": "^4.1.1",
+    "commander": "^8.1.0"
+  }
+}
