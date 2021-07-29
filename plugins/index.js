@@ -1,10 +1,12 @@
-const { declare } = require('@babel/helper-plugin-utils')
+const template = require('@babel/template').default
+const Program = require('./Program')
+const ImportDeclaration = require('./ImportDeclaration')
+const ExportDefaultDeclaration = require('./ExportDefaultDeclaration')
 
-module.exports = declare(function() {
+module.exports = function() {
   return {
-    manipulateOptions() {},
-    pre(){},
-    visitor:{},
-    post(){}
+    ...Program({ template }),
+    ...ImportDeclaration({ template }),
+    ...ExportDefaultDeclaration({ template }),
   }
-})
+}

@@ -1,8 +1,12 @@
 #!/usr/bin/env node
 
-const package = require('../package.json')
+const packageJSON = require('../package.json')
+const path = require('path')
 const chalk = require('chalk')
+const chainTool = require('./chainTool')
 const { program } = require('commander')
+const rootDir = process.cwd()
+
 program.version('0.0.1-alpha')
 
 // 配置对应命令参数
@@ -15,9 +19,10 @@ program.parse(process.argv)
 
 const options = program.opts()
 if (options.version) {
-  console.log(chalk.green(package.version))
+  console.log(chalk.green(packageJSON.version))
 }
 
 const entry_file = program.entry || 'src'
-const output = program.output || 'src'
+const output = program.output || 'src-output'
 
+chainTool.traverse(path.resolve(rootDir, entry_file))

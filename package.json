@@ -2,17 +2,17 @@
   "name": "@kvinc/vue-component-api-command-tool",
   "version": "0.0.1-alpha",
   "description": "Tool for changing vue-property-decorator to component-function-api",
-  "main": "./lib/index.js",
+  "main": "./core/index.js",
   "bin": {
-    "vts2cfa": "./lib/index.js"
+    "vts2cfa": "./core/index.js"
   },
   "target": "node",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node core/index.js",
+    "build": "webpack --mode=production",
+    "link": "sudo npm link"
   },
-  "files": [
-    "lib"
-  ],
   "homepage": "https://github.com/Gloomysunday28/vue-ts2cfa.git",
   "bugs": {
     "url": "https://github.com/Gloomysunday28/vue-ts2cfa/issues",
@@ -31,8 +31,15 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.14.8",
+    "@babel/helper-plugin-utils": "^7.14.5",
+    "@babel/plugin-proposal-decorators": "^7.14.5",
+    "@babel/plugin-syntax-typescript": "^7.14.5",
+    "babel-plugin-syntax-typescript": "^7.0.0-alpha.19",
     "chalk": "^4.1.1",
     "commander": "^8.1.0",
-    "vue-template-compiler": "^2.6.14"
+    "parcel-plugin-shebang": "^1.3.2",
+    "vue-template-compiler": "^2.6.14",
+    "webpack": "^5.47.0",
+    "webpack-cli": "^4.7.2"
   }
 }

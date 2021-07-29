@@ -1,5 +1,3 @@
-const { addNamed } = require('@babel/helper-module-imports')
-
 /**
  * @description
  *  将ts书写的data属性转换成options.data写法
@@ -7,5 +5,8 @@ const { addNamed } = require('@babel/helper-module-imports')
  * @returns {ast} 转换后的ast节点
  */
 module.exports = function() {
-  
+  return {
+    Program(path) {
+    }
+  }
 }
