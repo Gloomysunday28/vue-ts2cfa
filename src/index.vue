@@ -45,37 +45,33 @@ const menu = [
   }
 ]
 
-@Component({})
-export default class PitConfig extends Vue {
-  get navConfig() {
-    let m = menu.filter((item) => this.$hasModulePermission([item.role]))
-    // 无子页面
-    if (!this.HAS_SUB_PAGE) {
-      m = m.filter((item) => item.id !== 'subpage')
-    }
+@Component({
+  data() {
     return {
-      menu: m
+      cjd: 1
+    }
+  },
+  props: {
+    ggg: {
+      default: 'gg',
+      required: false,
+      type: String
     }
   }
+})
+export default class PitConfig extends Vue {
+  @Prop({default: 1})
+  c: number
 
-  @Watch('$route.path', { immediate: true })
-  handleRouteRedirect(to: string) {
-    if (to === '/pit') {
-      const redirectPath = this.navConfig.menu[0]?.to
-      if (redirectPath) {
-        this.$router
-          .replace({
-            path: redirectPath
-          })
-          .catch(() => {})
-      } else {
-        this.$router
-          .replace({
-            path: '/404'
-          })
-          .catch(() => {})
-      }
-    }
+  @Prop({default: () => [], type: Array, required: false})
+  e: number
+
+  gg: string = 'gg'
+  h: number = 1
+  a = {}
+  d: Array<number | string> = [1231, 'stri']
+  get b() {
+    return this.a
   }
 }
 </script>

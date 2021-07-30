@@ -1,7 +1,10 @@
+const path = require('path')
+const fs = require('fs')
 const parser = require('@babel/parser')
 const traverse  = require('@babel/traverse').default
 const generator = require('@babel/generator').default
 const transformPlugin = require('../plugins')
+const getTemplate = require('./template')
 
 /**
  * @description
@@ -9,8 +12,9 @@ const transformPlugin = require('../plugins')
  * @param {string} code 源码字符
  * @returns {string} 返回转换后的代码
  */
-module.exports = function transformOriginCode(code) {
-  const ast = parser.parse(code, {
+module.exports = function transformOriginCode(vueCompiler, output) {
+  const { script: { content, attrs }, template, styles } = vueCompiler
+  const ast = parser.parse(content, {
     plugins: ['decorators-legacy', 'typescript'],
     sourceType: 'unambiguous'
   })
@@ -18,6 +22,15 @@ module.exports = function transformOriginCode(code) {
   traverse(ast, transformPlugin())
 
   const { code: transformCode } = generator(ast)
-  console.log(transformCode)
+  const outputFileContent = getTemplate(template.content, { attrs, transformCode}, styles)
+  
+  const dir = path.dirname(output)
+  if (fs.existsSync(dir)) {
+    fs.rmSync(output)
+  } else {
+    fs.mkdirSync(dir)
+  }
+  
+  fs.writeFileSync(output, outputFileContent, 'utf-8')
   return transformCode
 }

@@ -9,19 +9,18 @@ const { parseComponent } = require('vue-template-compiler')
  * @param {string} filePath 解析的文件夹路径
  * @returns {undefined}
  */
-module.exports = function traverseCode(filePath) {
+module.exports = function traverseCode(filePath, output) {
   try {
     fs.readdir(filePath, (error, files) => {
       if (error) throw error
       
       files.forEach(f => {
-        global.isDone = false // ImportDeclartion需要开关
         const depFilePath = path.resolve(filePath, f)
         const stat = fs.statSync(depFilePath)
         if (stat.isDirectory()) {
-          this.traverseCode()
+          this.traverseCode(depFilePath)
         } else if (path.extname(depFilePath) === '.vue') {
-          this.transformOriginCode(parseComponent(fs.readFileSync(depFilePath, 'utf-8')).script.content)
+          this.transformOriginCode(parseComponent(fs.readFileSync(depFilePath, 'utf-8')), path.resolve(output, f))
         }
       })
     })

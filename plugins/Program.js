@@ -7,6 +7,7 @@
 module.exports = function() {
   return {
     Program(path) {
+      global.rootpath = path
     }
   }
 }
