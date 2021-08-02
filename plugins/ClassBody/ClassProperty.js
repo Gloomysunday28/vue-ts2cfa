@@ -34,6 +34,7 @@ module.exports = function(classProperty) {
         const conformCompositionAPI = componsitionAPIHooks.includes(name) // 是否符合compositionAPI lifeCycleHooks引入标准
 
         global.options.hooks.push({
+          async: hook.async,
           conformCompositionAPI,
           name: transformHooksName(name),
           body: generator(hook.body).code,

@@ -6,6 +6,8 @@ module.exports = function Setup() {
   const compositionHooks = hooks.filter(hook => hook.conformCompositionAPI)
   if (!setup.length && !compositionHooks.length) return ''
   
+  console.log('compositionHooks', compositionHooks)
+
   if (compositionHooks.length) {
     compositionHooks.forEach(hook => {
       AddImportNamed(hook.name)
@@ -25,7 +27,7 @@ module.exports = function Setup() {
       }).join('\n')}
 
       ${compositionHooks.map(hook => { // 收集class下的hooks
-        return `${hook.name}(function(${hook.params.value || ''}) ${hook.body})`
+        return `${hook.name}(${hook.async ? 'async ' : ''}function(${hook.params.value || ''}) ${hook.body})`
       }).join('\n')}
 
       return {

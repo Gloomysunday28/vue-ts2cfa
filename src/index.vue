@@ -136,7 +136,7 @@ export default class PitConfig extends Vue {
     return value
   }
 
-  mounted = function(value) {
+  mounted = async function(value) {
     console.log(321)
   }
 

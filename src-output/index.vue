@@ -59,7 +59,7 @@ export default defineComponent({
     let h: number = 1;
     let a = reactive({});
     let d: Array<number | string> = reactive([1231, 'stri']);
-    onMounted(function () {
+    onMounted(async function () {
       console.log(321);
     });
     onBeforeUnmount(function () {});
