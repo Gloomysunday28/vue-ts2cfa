@@ -7,6 +7,11 @@
     "vts2cfa": "./core/index.js"
   },
   "target": "node",
+  "files": [
+    "core",
+    "plugins",
+    "utils"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node core/index.js",
