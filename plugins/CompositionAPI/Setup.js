@@ -6,8 +6,6 @@ module.exports = function Setup() {
   const compositionHooks = hooks.filter(hook => hook.conformCompositionAPI)
   if (!setup.length && !compositionHooks.length) return ''
   
-  console.log('compositionHooks', compositionHooks)
-
   if (compositionHooks.length) {
     compositionHooks.forEach(hook => {
       AddImportNamed(hook.name)

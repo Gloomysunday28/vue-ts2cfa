@@ -1,5 +1,6 @@
 const path = require('path')
 const fs = require('fs')
+let totalSize = 0
 
 function emptyDir(filePath) {
   const files = fs.readdirSync(filePath)//读取该文件夹
@@ -39,10 +40,27 @@ function rmAndMkdirSync(dirname, output) {
     }
   }
 }
+
+function getTotalSize(entry) {
+  const files = fs.readdirSync(entry)
+  files.forEach(f => {
+    const depFilePath = path.resolve(entry, f)
+    const stat = fs.statSync(depFilePath)
+    if (stat.isDirectory()) {
+      getTotalSize(depFilePath)
+    } else if (path.extname(depFilePath) === '.vue') {
+      totalSize += 1
+    }
+  })
+  
+  return totalSize
+}
+
 module.exports = {
   emptyDir,
   mkdirSync,
   existsSync,
   rmSync,
   rmAndMkdirSync,
+  getTotalSize
 }
