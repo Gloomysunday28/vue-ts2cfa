@@ -10,8 +10,8 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, reactive } from '@vue/composition-api';
-import { Component, Vue, Watch } from 'vue-property-decorator';
+  import { defineComponent, onMounted, onBeforeUnmount, onUnmounted, reactive } from '@vue/composition-api';
+import { Component, Vue, Watch, Ref } from 'vue-property-decorator';
 const menu = [{
   id: 'tree',
   name: '树形视图',
@@ -39,11 +39,31 @@ const menu = [{
   role: 'page'
 }];
 export default defineComponent({
+  name: 'cjd',
+  directives: {
+    bind(value) {},
+
+    update() {}
+
+  },
+  mixins: ['314', '531251'],
+  filters: {
+    ff(value) {
+      return value + 2;
+    }
+
+  },
+
   setup() {
     let gg: string = 'gg';
     let h: number = 1;
     let a = reactive({});
     let d: Array<number | string> = reactive([1231, 'stri']);
+    onMounted(function () {
+      console.log(321);
+    });
+    onBeforeUnmount(function () {});
+    onUnmounted(function () {});
     return {
       gg,
       h,
@@ -67,13 +87,56 @@ export default defineComponent({
       required: false
     }
   },
+  computed: {
+    b: {
+      getter() {
+        return this.a;
+      },
+
+      setter(value) {}
+
+    },
+    gd: {
+      getter() {
+        return 5321512;
+      }
+
+    },
+
+    cjd() {
+      return this.a;
+    },
+
+    bbRef() {
+      const bbRef: string = this.$refs['aa'];
+      return bbRef;
+    }
+
+  },
 
   data() {
     return {
       cjd: 1
     };
-  }
+  },
 
+  mounted() {
+    console.log(32131);
+  },
+
+  created: [function () {}, function (value) {
+    console.log(321);
+  }],
+  methods: {
+    getAge() {
+      this.age = 2;
+    },
+
+    getMyName(value) {
+      return value;
+    }
+
+  }
 });
 </script>
   

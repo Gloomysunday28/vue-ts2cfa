@@ -1,8 +1,15 @@
 const { isObject } = require('../../utils')  
-const AddImportNamed = require('../AddImportNamed')  
+const AddImportNamed = require('../AddImportNamed') // 按需引入API 
 
 module.exports = function Setup() {
-  const { setup } = global.options
+  const { setup, hooks } = global.options
+  const compositionHooks = hooks.filter(hook => hook.conformCompositionAPI)
+  if (compositionHooks.length) {
+    compositionHooks.forEach(hook => {
+      AddImportNamed(hook.name)
+    })
+  }
+  
   return `
     setup() {
       ${setup.map(variable => {
@@ -13,6 +20,10 @@ module.exports = function Setup() {
         }
 
         return `let ${variable.code}`
+      }).join('\n')}
+
+      ${compositionHooks.map(hook => { // 收集class下的hooks
+        return `${hook.name}(function(${hook.params.value || ''}) ${hook.body})`
       }).join('\n')}
 
       return {

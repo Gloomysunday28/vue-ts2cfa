@@ -1,3 +1,10 @@
+const { componsitionAPIHooks } = require('./hooks')
+
+const hooksMapping = new Map([
+  ['beforeDestroy', 'beforeUnmount'],
+  ['destroyed', 'unmounted'],
+])
+
 module.exports = {
   clearGlobalState() {
     global.isDone = false // ImportDeclartion需要开关
@@ -12,11 +19,17 @@ module.exports = {
   initOptions() {
     global.options = {
       setup: [],
+      name: null, // 原封不懂的返回
       data: null, // 原封不动的返回
+      filters: null, // 原封不动的返回
+      mixins: null, // 原封不动的返回
+      directives: null, // 原封不动的返回
       prop: [],
       methods: [],
       computed: [],
-      watch: []
+      watch: [],
+      ref: [],
+      hooks: []
     }
   },
   isObject(type) {
@@ -26,5 +39,30 @@ module.exports = {
     return global.ImportCompositionApiAST.specifiers.some(specifier => {
       return specifier.imported.name === name
     })
+  },
+  /**
+   * @description
+   *  export const onBeforeMount = createLifeCycle('beforeMount')
+   *  export const onMounted = createLifeCycle('mounted')
+   *  export const onBeforeUpdate = createLifeCycle('beforeUpdate')
+   *  export const onUpdated = createLifeCycle('updated')
+   *  export const onBeforeUnmount = createLifeCycle('beforeDestroy')
+   *  export const onUnmounted = createLifeCycle('destroyed')
+   *  export const onErrorCaptured = createLifeCycle('errorCaptured')
+   *  export const onActivated = createLifeCycle('activated')
+   *  export const onDeactivated = createLifeCycle('deactivated')
+   *  export const onServerPrefetch = createLifeCycle('serverPrefetch')
+   * @param {string} name 
+   * @returns 
+   */
+  transformHooksName(name) {
+    if (componsitionAPIHooks.includes(name)) {
+      name = hooksMapping.get(name) || name
+      return name.replace(/([a-zA-Z])(\w*)/, (c, first, rest) => {
+        return 'on' + first.toUpperCase() + rest
+      })
+    }
+    
+    return name
   }
 }

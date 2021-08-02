@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator'
+import { Component, Vue, Watch, Ref } from 'vue-property-decorator'
 
 const menu = [
   {
@@ -46,16 +46,47 @@ const menu = [
 ]
 
 @Component({
+  name: 'cjd',
   data() {
     return {
       cjd: 1
     }
   },
+  directives: {
+    bind(value) {
+
+    },
+    update() {
+
+    }
+  },
+  mounted() {
+    console.log(32131)
+  },
+  created() {
+
+  },
+  mixins: ['314', '531251'],
   props: {
     ggg: {
       default: 'gg',
       required: false,
       type: String
+    }
+  },
+  computed: {
+    cjd() {
+      return this.a
+    }
+  },
+  filters: {
+    ff(value) {
+      return value + 2 
+    }
+  },
+  methods: {
+    getAge() {
+      this.age = 2
     }
   }
 })
@@ -66,12 +97,42 @@ export default class PitConfig extends Vue {
   @Prop({default: () => [], type: Array, required: false})
   e: number
 
+  @Ref('aa')
+  bbRef: string
+
   gg: string = 'gg'
   h: number = 1
   a = {}
   d: Array<number | string> = [1231, 'stri']
   get b() {
     return this.a
+  }
+
+  set b(value) {
+  }
+
+  get gd() {
+    return 5321512
+  }
+
+  getMyName(value) {
+    return value
+  }
+
+  mounted = function(value) {
+    console.log(321)
+  }
+
+  created(value) {
+    console.log(321)
+  }
+
+  beforeDestroy(value) {
+
+  }
+
+  destroyed(value) {
+
   }
 }
 </script>

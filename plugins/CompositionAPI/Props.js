@@ -4,7 +4,7 @@
  */
 module.exports = function Props() {
   const { prop } = global.options
-  console.log(prop)
+
   return `
     props: {
       ${prop.map(pData => {

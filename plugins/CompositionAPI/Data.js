@@ -1,8 +1,8 @@
 /**
  * @description
- *  收集Props, 更新Props的用法
+ *  收集Data, 更新Data的用法
  */
- module.exports = function Props() {
+ module.exports = function Data() {
   const { data } = global.options
 
   return data
