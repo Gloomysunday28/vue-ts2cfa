@@ -1,7 +1,7 @@
-<div style="text-align: center; font-size: 30px">Vue TS转换CompositionAPI</div>
-<div style="display: flex; justify-content: center">
+# Vue TS转换CompositionAPI
+<p align="center">
 <img src="https://img.shields.io/badge/vue-2.6.0-important" /> <img style="margin-left: 10px" src="https://img.shields.io/badge/vue-3.x-success" />
-</div>
+</p>
 
 ## 诞生用途
 用于更改vue-property-decorator到component-function-api的工具
