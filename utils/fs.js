@@ -1,3 +1,4 @@
+const path = require('path')
 const fs = require('fs')
 
 function emptyDir(filePath) {
@@ -13,6 +14,35 @@ function emptyDir(filePath) {
   })
 }
 
+function mkdirSync(filePath) {
+  fs.mkdirSync(filePath)
+}
+
+function existsSync(filePath) {
+  fs.existsSync(filePath)
+}
+
+function rmSync(filePath) {
+  fs.rmSync(filePath)
+}
+
+function rmAndMkdirSync(dirname, output) {
+  if (fs.existsSync(dirname)) {
+    if (fs.existsSync(output)) {
+      fs.rmSync(output)
+    }
+    return true;
+  } else {
+    if (rmAndMkdirSync(path.dirname(dirname), output)) {
+      fs.mkdirSync(dirname);
+      return true;
+    }
+  }
+}
 module.exports = {
-  emptyDir
+  emptyDir,
+  mkdirSync,
+  existsSync,
+  rmSync,
+  rmAndMkdirSync,
 }

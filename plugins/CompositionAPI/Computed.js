@@ -7,11 +7,10 @@ const Ref = require('./Ref.js')
  */
  module.exports = function Computed() {
   const { computed } = global.options
-  if (!computed.length) return ''
 
   const intactComputed = computed.filter(c => typeof c === 'string')
   const tidyComputed = computed.filter(c => typeof c === 'object').reduce((tidy, data) => {
-    const code = `${data.kind + 'ter'}(${data.params}) ${data.code}`
+    const code = `${data.kind + 'ter'}(${data.params})${data.returnType || ''} ${data.code}`
     if (tidy[data.name]) {
       tidy[data.name].code_two = code
     } else {
@@ -22,6 +21,8 @@ const Ref = require('./Ref.js')
 
     return tidy
   }, {})
+
+  if (!intactComputed.length && !tidyComputed.length) return ''
 
   return `
     computed: {

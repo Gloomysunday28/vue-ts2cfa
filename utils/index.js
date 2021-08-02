@@ -29,7 +29,9 @@ module.exports = {
       computed: [],
       watch: [],
       ref: [],
-      hooks: []
+      hooks: [],
+      state: [],
+      mutation: [],
     }
   },
   isObject(type) {

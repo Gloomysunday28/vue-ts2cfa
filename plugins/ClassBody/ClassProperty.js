@@ -7,6 +7,7 @@ const { transformHooksName } = require('../../utils')
  * @param {ast} ast ClassProperty
  */
 module.exports = function(classProperty) {
+  classProperty.accessibility = undefined
   const name = classProperty.key.name // string
   const value = classProperty.value // ast
   const type = (value || {}).type
@@ -14,12 +15,14 @@ module.exports = function(classProperty) {
   const typeAnnotation = generator(classProperty.typeAnnotation).code
   const code = generator(classProperty).code // string
   const decorators = classProperty.decorators
-
+  
   if (decorators) { // @Prop / @Ref..等等属性装饰器
     decorators.forEach((decorator) => {
       const expression = decorator.expression
       const optionContainer = global.options[expression.callee.name.toLocaleLowerCase()]
-      optionContainer.push({ code, name, typeAnnotation, type, value: generatorValue, arguments: generator(expression.arguments[0]).code })
+      if (optionContainer) {
+        optionContainer.push({ code, name, typeAnnotation, type, value: generatorValue, arguments: generator(expression.arguments[0]).code })
+      }
     })
   } else {
     if (lifeCycleHooks.includes(name)) { // 考虑生命周期是数组的情况
@@ -34,7 +37,7 @@ module.exports = function(classProperty) {
           conformCompositionAPI,
           name: transformHooksName(name),
           body: generator(hook.body).code,
-          params: hook.params.map(v => v.name).join(',')
+          params: hook.params.map(v => `${v.name}${v.typeAnnotation ? generator(v.typeAnnotation).code : ''}`).join(',')
         })
       })
     } else {

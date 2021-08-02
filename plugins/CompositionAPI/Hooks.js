@@ -17,11 +17,11 @@
       const hookFn = integrationHooks[hook]
       if (hookFn.length > 1) {
         return `${hook}: [${hookFn.map(fn => {
-          return `function(${fn.params || ''}) ${fn.body}`
+          return `${fn.async ? 'async ': ''}function(${fn.params || ''}) ${fn.body}`
         }).join(',')}]`
       } else {
         const fn = hookFn[0]
-        return `${fn.name}(${fn.params || ''}) ${fn.body}`
+        return `${fn.async ? 'async ': ''}${fn.name}(${fn.params || ''}) ${fn.body}`
       }
     })},
   `

@@ -38,7 +38,7 @@ module.exports = function Decorator(path) {
               const key = watch.key.name
               const methods = watch.type === 'ObjectMethod'
               const type = value.type
-              const params = (watch.params || []).map(v => v.name).join(',')
+              const params = (watch.params || []).map(v => `${v.name}${v.typeAnnotation ? generator(v.typeAnnotation).code : ''}`).join(',')
               const watchFn = []
               if (type === 'ArrayExpression') {
                 const elements = value.elements
@@ -46,14 +46,16 @@ module.exports = function Decorator(path) {
                   const type = el.type
                   const methods = type === 'FunctionExpression'
                   return {
+                    async: el.async,
                     name: (el.id || {}).name,
-                    params: (el.params || []).map(v => v.name).join(','),
+                    params: (el.params || []).map(v => `${v.name}${v.typeAnnotation ? generator(v.typeAnnotation).code : ''}`).join(','),
                     body: methods ? generator(el.body).code : el.value,
                     conformMethods: methods
                   }
                 }))
               } else {
                 watchFn.push({
+                  async: watch.async,
                   name: watch.key.name,
                   params,
                   body: methods ? generator(watch.body).code : value.value,
@@ -70,9 +72,10 @@ module.exports = function Decorator(path) {
           default:
             if (lifeCycleHooks.includes(name)) {
               global.options.hooks.push({
+                async: pro.async,
                 name,
                 body: generator(pro.body).code,
-                params: pro.params.map(v => v.name).join(',')
+                params: pro.params.map(v => `${v.name}${v.typeAnnotation ? generator(v.typeAnnotation).code : ''}`).join(',')
               })
             }
             break

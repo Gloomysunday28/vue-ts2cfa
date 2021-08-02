@@ -5,6 +5,7 @@ const traverse  = require('@babel/traverse').default
 const generator = require('@babel/generator').default
 const transformPlugin = require('../plugins')
 const getTemplate = require('./template')
+const { rmAndMkdirSync } = require('../utils/fs')
 
 /**
  * @description
@@ -13,7 +14,7 @@ const getTemplate = require('./template')
  * @returns {string} 返回转换后的代码
  */
 module.exports = function transformOriginCode(vueCompiler, output) {
-  const { script: { content, attrs }, template, styles } = vueCompiler
+  const { script: { content, attrs }, template = {}, styles = {} } = vueCompiler
   const ast = parser.parse(content, {
     plugins: ['decorators-legacy', 'typescript', 'jsx'],
     sourceType: 'unambiguous'
@@ -22,15 +23,9 @@ module.exports = function transformOriginCode(vueCompiler, output) {
   traverse(ast, transformPlugin())
 
   const { code: transformCode } = generator(ast)
-  const outputFileContent = getTemplate(template.content, { attrs, transformCode}, styles)
+  const outputFileContent = getTemplate(template ? template.content : '', { attrs, transformCode}, styles || '')
   
-  const dir = path.dirname(output)
-
-  if (fs.existsSync(output)) {
-    fs.rmSync(output)
-  } else if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir)
-  }
+  rmAndMkdirSync(path.dirname(output), output)
   
   fs.writeFileSync(output, outputFileContent, 'utf-8')
   return transformCode

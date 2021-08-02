@@ -63,7 +63,7 @@ const menu = [
   mounted() {
     console.log(32131)
   },
-  created(vvv) {
+  async created(vvv) {
     console.log('created')
   },
   mixins: ['314', '531251'],
@@ -75,7 +75,7 @@ const menu = [
     }
   },
   computed: {
-    cjd() {
+    async cjd() {
       return this.a
     },
     lll: {
@@ -98,10 +98,11 @@ const menu = [
     }
   },
   watch: {
-  	g() {
+  	async g() {
     },
     c: 'gg',
-    h: [function f(h){
+    h: [async function f(h){
+      await h
       console.log(h)
     }, 'cc']
   }
@@ -120,18 +121,18 @@ export default class PitConfig extends Vue {
   h: number = 1
   a = {}
   d: Array<number | string> = [1231, 'stri']
-  get b() {
+  get b(): any {
     return this.a
   }
 
-  set b(value) {
+  set b(value: string) {
   }
 
   get gd() {
     return 5321512
   }
 
-  getMyName(value) {
+  getMyName(value: string) {
     return value
   }
 
@@ -139,7 +140,8 @@ export default class PitConfig extends Vue {
     console.log(321)
   }
 
-  created(value) {
+  async created(value) {
+    await value
     console.log(321)
   }
 
@@ -156,7 +158,8 @@ export default class PitConfig extends Vue {
   }
 
   @Watch('333')
-  getWatch(vealue) {
+  async getWatch(vealue) {
+    await 333
     console.log(vealue)
   }
 }

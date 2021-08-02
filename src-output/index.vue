@@ -89,11 +89,11 @@ export default defineComponent({
   },
   computed: {
     b: {
-      getter() {
+      getter(): any {
         return this.a;
       },
 
-      setter(value) {}
+      setter(value: string) {}
 
     },
     gd: {
@@ -103,7 +103,7 @@ export default defineComponent({
 
     },
 
-    cjd() {
+    async cjd() {
       return this.a;
     },
 
@@ -133,9 +133,10 @@ export default defineComponent({
     console.log(32131);
   },
 
-  created: [function (vvv) {
+  created: [async function (vvv) {
     console.log('created');
-  }, function (value) {
+  }, async function (value) {
+    await value;
     console.log(321);
   }],
 
@@ -148,18 +149,20 @@ export default defineComponent({
       this.age = 2;
     },
 
-    getMyName(value) {
+    getMyName(value: string) {
       return value;
     }
 
   },
   watch: {
-    g: function g() {},
+    g: async function g() {},
     c: "gg",
-    h: [function f(h) {
+    h: [async function f(h) {
+      await h;
       console.log(h);
     }, "cc"],
-    '333': function getWatch(vealue) {
+    '333': async function getWatch(vealue) {
+      await 333;
       console.log(vealue);
     }
   }

@@ -20,7 +20,7 @@ import watermark from 'watermark-dom'
 })
 export default class App extends Vue {
   zhCN = zhCN
-
+ @State('user') user
   /**
    * antd 组件空态统一处理
    */
