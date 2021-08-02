@@ -1,42 +1,173 @@
 <template>
-<div class="top">
-  <div class="flex-ac">
-    <u-icon-button icon="left" class="g-mr-8" style="margin-top: 1px" @click="back" />
-    <a-breadcrumb>
-      <a-breadcrumb-item>
-        <a href="javascript: void(0)" @click="back">对象管理</a>
-      </a-breadcrumb-item>
-      <a-breadcrumb-item>对象详情</a-breadcrumb-item>
-    </a-breadcrumb>
+  <div class="fill flex">
+    <u-sidebar :navConfig="navConfig"></u-sidebar>
+    <div class="content">
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
+    </div>
   </div>
-  <div class="g-mt-4" style="margin-left: 22px">
-    <span>oid：{{ oid }}</span>
-    <span class="g-ml-24">名称：{{ name }}</span>
-  </div>
-</div>
 </template>
 
 <script lang="ts">
-  import { defineComponent } from '@vue/composition-api';
-export default defineComponent({
+import { Component, Vue, Watch, Ref } from 'vue-property-decorator'
+
+const menu = [
+  {
+    id: 'tree',
+    name: '树形视图',
+    to: '/pit/tree',
+    role: 'page'
+  },
+  {
+    id: 'position',
+    name: '点位管理',
+    to: '/pit/position',
+    role: 'position'
+  },
+  {
+    id: 'module',
+    name: '模块管理',
+    to: '/pit/module',
+    role: 'module'
+  },
+  {
+    id: 'subpage',
+    name: '子页面管理',
+    to: '/pit/subpage',
+    role: 'page'
+  },
+  {
+    id: 'page',
+    name: '页面管理',
+    to: '/pit/page',
+    role: 'page'
+  }
+]
+
+@Component({
+  name: 'cjd',
+  data() {
+    return {
+      cjd: 1
+    }
+  },
+  directives: {
+    bind(value) {
+
+    },
+    update() {
+
+    }
+  },
+  mounted() {
+    console.log(32131)
+  },
+  created(vvv) {
+    console.log('created')
+  },
+  mixins: ['314', '531251'],
   props: {
-    oid: {},
-    name: {}
+    ggg: {
+      default: 'gg',
+      required: false,
+      type: String
+    }
+  },
+  computed: {
+    cjd() {
+      return this.a
+    },
+    lll: {
+      setter(value) {
+
+      },
+      getter() {
+        return value
+      }
+    }
+  },
+  filters: {
+    ff(value) {
+      return value + 2 
+    }
   },
   methods: {
-    back() {
-      this.$router.replace({
-        path: '/tracker/object/list'
-      }).catch(() => {});
+    getAge() {
+      this.age = 2
     }
+  },
+  watch: {
+  	g() {
+    },
+    c: 'gg',
+    h: [function f(h){
+      console.log(h)
+    }, 'cc']
+  }
+})
+export default class PitConfig extends Vue {
+  @Prop({default: 1})
+  c: number
+
+  @Prop({default: () => [], type: Array, required: false})
+  e: number
+
+  @Ref('aa')
+  bbRef: string
+
+  gg: string = 'gg'
+  h: number = 1
+  a = {}
+  d: Array<number | string> = [1231, 'stri']
+  get b() {
+    return this.a
+  }
+
+  set b(value) {
+  }
+
+  get gd() {
+    return 5321512
+  }
+
+  getMyName(value) {
+    return value
+  }
+
+  mounted = function(value) {
+    console.log(321)
+  }
+
+  created(value) {
+    console.log(321)
+  }
+
+  beforeDestroy(value) {
 
   }
-});
+
+  destroyed(value) {
+
+  }
+
+  beforeRouteEnter(to, from, next) {
+    console.log(to)
+  }
+
+  @Watch('333')
+  getWatch(vealue) {
+    console.log(vealue)
+  }
+}
 </script>
-  
-<style lang="less" scoped="true">
-.top {
-  border-bottom: 1px solid @border-color-split;
-  padding: 12px 0 8px 0;
+
+<style lang="less" scoped>
+.content {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  position: relative;
+  overflow-x: auto; // fix: firefox 内容区过宽不滚动，撑开页面
 }
 </style>

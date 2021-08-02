@@ -3,15 +3,15 @@ const AddImportNamed = require('../AddImportNamed') // 按需引入API
 
 module.exports = function Setup() {
   const { setup, hooks } = global.options
-  if (!setup.length && !hooks.length) return ''
-
   const compositionHooks = hooks.filter(hook => hook.conformCompositionAPI)
+  if (!setup.length && !compositionHooks.length) return ''
+  
   if (compositionHooks.length) {
     compositionHooks.forEach(hook => {
       AddImportNamed(hook.name)
     })
   }
-  
+
   return `
     setup() {
       ${setup.map(variable => {

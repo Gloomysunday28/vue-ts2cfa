@@ -15,7 +15,7 @@ const getTemplate = require('./template')
 module.exports = function transformOriginCode(vueCompiler, output) {
   const { script: { content, attrs }, template, styles } = vueCompiler
   const ast = parser.parse(content, {
-    plugins: ['decorators-legacy', 'typescript'],
+    plugins: ['decorators-legacy', 'typescript', 'jsx'],
     sourceType: 'unambiguous'
   })
 
@@ -25,9 +25,10 @@ module.exports = function transformOriginCode(vueCompiler, output) {
   const outputFileContent = getTemplate(template.content, { attrs, transformCode}, styles)
   
   const dir = path.dirname(output)
-  if (fs.existsSync(dir)) {
+
+  if (fs.existsSync(output)) {
     fs.rmSync(output)
-  } else {
+  } else if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir)
   }
   

@@ -4,9 +4,8 @@
  */
  module.exports = function Hooks() {
   const { hooks } = global.options
-  if (!hooks.length) return ''
-
   const notConformCompositionAPI = hooks.filter(hook => !hook.conformCompositionAPI)
+  if (!notConformCompositionAPI.length) return ''
   
   const integrationHooks = {}
   notConformCompositionAPI.forEach(hook => {

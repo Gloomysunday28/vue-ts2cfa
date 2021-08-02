@@ -18,6 +18,7 @@
 
 <script lang="ts">
   import { defineComponent } from '@vue/composition-api';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 export default defineComponent({
   props: {
     oid: {},
