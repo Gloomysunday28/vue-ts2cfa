@@ -7,11 +7,15 @@
 module.exports = function({ template }) {
   return {
     ImportDeclaration(path) {
-      if (global.isDone) return path.stop()
-      global.isDone = true
-      const ast = template.ast(`import { defineComponent } from '@vue/composition-api'`)
-      path.insertBefore(ast)
-      global.ImportCompositionApiAST = ast
+      const source = path.node.source.value
+      if (source === 'vue-property-decorator') {
+        if (global.isDone) return path.stop()
+        global.isDone = true
+        const ast = template.ast(`import { defineComponent } from '@vue/composition-api'`)
+        path.insertBefore(ast)
+        global.ImportCompositionApiAST = ast
+        path.remove()
+      } else path.skip()
     }
   }
 }

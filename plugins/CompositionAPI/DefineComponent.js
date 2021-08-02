@@ -8,6 +8,7 @@ const Directives = require('./Directives')
 const Computed = require('./Computed')
 const Methods = require('./Methods')
 const Hooks = require('./Hooks')
+const Watch = require('./Watch')
 
 module.exports = function DefineComponent(template) {
   return template.ast(`defineComponent({
@@ -20,7 +21,8 @@ module.exports = function DefineComponent(template) {
     ${Computed(template)},
     ${Data(template)},
     ${Hooks(template)},
-    ${Methods(template)}
+    ${Methods(template)},
+    ${Watch(template)}
   })`, {
     plugins: ['typescript']
   })

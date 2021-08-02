@@ -31,6 +31,42 @@ module.exports = function Decorator(path) {
           case 'methods':
             global.options[name].push({ code: pro.value.properties.map(v => generator(v).code) })
             break
+          case 'watch':
+            const watchProperties = pro.value.properties
+            watchProperties.forEach(watch => {
+              const value = watch.value || {}
+              const key = watch.key.name
+              const methods = watch.type === 'ObjectMethod'
+              const type = value.type
+              const params = (watch.params || []).map(v => v.name).join(',')
+              const watchFn = []
+              if (type === 'ArrayExpression') {
+                const elements = value.elements
+                watchFn.push(...elements.map(el => {
+                  const type = el.type
+                  const methods = type === 'FunctionExpression'
+                  return {
+                    name: (el.id || {}).name,
+                    params: (el.params || []).map(v => v.name).join(','),
+                    body: methods ? generator(el.body).code : el.value,
+                    conformMethods: methods
+                  }
+                }))
+              } else {
+                watchFn.push({
+                  name: watch.key.name,
+                  params,
+                  body: methods ? generator(watch.body).code : value.value,
+                  conformMethods: methods
+                })
+              }
+
+              global.options.watch.push({
+                key,
+                watchFn
+              })
+            })
+
           default:
             if (lifeCycleHooks.includes(name)) {
               global.options.hooks.push({

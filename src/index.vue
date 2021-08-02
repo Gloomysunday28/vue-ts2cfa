@@ -63,8 +63,8 @@ const menu = [
   mounted() {
     console.log(32131)
   },
-  created() {
-
+  created(vvv) {
+    console.log('created')
   },
   mixins: ['314', '531251'],
   props: {
@@ -88,6 +88,14 @@ const menu = [
     getAge() {
       this.age = 2
     }
+  },
+  watch: {
+  	g() {
+    },
+    c: 'gg',
+    h: [function f(h){
+      console.log(h)
+    }, 'cc']
   }
 })
 export default class PitConfig extends Vue {
@@ -133,6 +141,11 @@ export default class PitConfig extends Vue {
 
   destroyed(value) {
 
+  }
+
+  @Watch('333')
+  getWatch(vealue) {
+    console.log(vealue)
   }
 }
 </script>

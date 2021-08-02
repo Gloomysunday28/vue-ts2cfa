@@ -14,7 +14,7 @@ module.exports = function(classProperty) {
   const typeAnnotation = generator(classProperty.typeAnnotation).code
   const code = generator(classProperty).code // string
   const decorators = classProperty.decorators
-  
+
   if (decorators) { // @Prop / @Ref..等等属性装饰器
     decorators.forEach((decorator) => {
       const expression = decorator.expression

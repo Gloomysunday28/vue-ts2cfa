@@ -11,7 +11,6 @@
 
 <script lang="ts">
   import { defineComponent, onMounted, onBeforeUnmount, onUnmounted, reactive } from '@vue/composition-api';
-import { Component, Vue, Watch, Ref } from 'vue-property-decorator';
 const menu = [{
   id: 'tree',
   name: '树形视图',
@@ -124,7 +123,9 @@ export default defineComponent({
     console.log(32131);
   },
 
-  created: [function () {}, function (value) {
+  created: [function (vvv) {
+    console.log('created');
+  }, function (value) {
     console.log(321);
   }],
   methods: {
@@ -136,6 +137,16 @@ export default defineComponent({
       return value;
     }
 
+  },
+  watch: {
+    g: function g() {},
+    c: "gg",
+    h: [function f(h) {
+      console.log(h);
+    }, "cc"],
+    '333': function getWatch(vealue) {
+      console.log(vealue);
+    }
   }
 });
 </script>
