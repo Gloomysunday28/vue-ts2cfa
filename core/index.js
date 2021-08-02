@@ -7,7 +7,7 @@ const { getTotalSize } = require('../utils/fs')
 const ProgressBar = require('progress')
 const rootDir = process.cwd()
 
-program.version('0.0.1-alpha')
+program.version(packageJSON.version)
 // 配置对应命令参数
 program
   .option('-v, --version', 'output tool version')
@@ -24,7 +24,7 @@ const entry_file = options.entry || 'src'
 const output = options.output || 'src-output'
 
 const totalSize = getTotalSize(entry_file)
-const bar = new ProgressBar('转换中... [:bar] 完成进度: :current/:total 完成进度百分比: :percent  预计完成时间: :eta', {
+const bar = new ProgressBar('转换中... [:bar] 完成进度: :current/:total 完成进度百分比: :percent  完成倒计时: :eta', {
   complete: '🚗',
   incomplete: ' ',
   width: 20,
