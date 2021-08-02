@@ -5,5 +5,5 @@
  module.exports = function Filters() {
   const { filters } = global.options
 
-  return filters
+  return filters ? filters + ',' : ''
 }

@@ -18,8 +18,12 @@ module.exports = function traverseCode(filePath, output) {
         const depFilePath = path.resolve(filePath, f)
         const stat = fs.statSync(depFilePath)
         if (stat.isDirectory()) {
-          this.traverseCode(depFilePath)
+          this.traverse(depFilePath, path.resolve(output, f))
         } else if (path.extname(depFilePath) === '.vue') {
+          console.log(depFilePath)
+          console.log('output', output)
+          console.log(f)
+          this.clearGlobalState()
           this.transformOriginCode(parseComponent(fs.readFileSync(depFilePath, 'utf-8')), path.resolve(output, f))
         }
       })

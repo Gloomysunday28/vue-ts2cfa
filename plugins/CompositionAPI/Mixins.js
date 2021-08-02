@@ -5,5 +5,5 @@
  module.exports = function Mixins() {
   const { mixins } = global.options
 
-  return mixins
+  return mixins ? mixins + ',' : ''
 }

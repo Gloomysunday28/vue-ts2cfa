@@ -4,6 +4,7 @@
  */
  module.exports = function Ref() {
   const { ref } = global.options
+  if (!ref.length) return ''
 
   return `
     ${ref.map(rData => {
@@ -11,6 +12,6 @@
         const ${rData.name}${rData.typeAnnotation} = this.$refs[${rData.arguments}]
         return ${rData.name}
       }`
-    })}
+    })},
   `
 }

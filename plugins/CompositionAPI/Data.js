@@ -5,5 +5,5 @@
  module.exports = function Data() {
   const { data } = global.options
 
-  return data
+  return data ? data + ',' : ''
 }

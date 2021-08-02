@@ -4,6 +4,8 @@
  */
  module.exports = function Hooks() {
   const { hooks } = global.options
+  if (!hooks.length) return ''
+
   const notConformCompositionAPI = hooks.filter(hook => !hook.conformCompositionAPI)
   
   const integrationHooks = {}
@@ -22,6 +24,6 @@
         const fn = hookFn[0]
         return `${fn.name}(${fn.params || ''}) ${fn.body}`
       }
-    })}
+    })},
   `
 }

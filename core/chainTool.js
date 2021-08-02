@@ -3,11 +3,14 @@ const traverse = require('./traverse') // 递归循环遍历文件内容并且�
 const utils = require('../utils')
 
 function ChainTool() {
-  utils.clearGlobalState()
+  this.clearGlobalState()
 }
 
 ChainTool.prototype = {
   contructor: ChainTool,
+  clearGlobalState() {
+    utils.clearGlobalState()
+  },
   transformOriginCode() {
     transformOriginCode.apply(this, arguments)
 

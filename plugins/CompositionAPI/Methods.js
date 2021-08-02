@@ -4,10 +4,11 @@
  */
  module.exports = function Methods() {
   const { methods } = global.options
+  if (!methods.length) return ''
 
   return `
     methods: {
       ${methods.map(v => v.code).join(',')}
-    }
+    },
   `
 }

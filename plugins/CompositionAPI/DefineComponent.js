@@ -12,16 +12,16 @@ const Watch = require('./Watch')
 
 module.exports = function DefineComponent(template) {
   return template.ast(`defineComponent({
-    ${Name(template)},
-    ${Directives(template)},
-    ${Mixins(template)},
-    ${Filters(template)},
-    ${Setup(template)},
-    ${Props(template)},
-    ${Computed(template)},
-    ${Data(template)},
-    ${Hooks(template)},
-    ${Methods(template)},
+    ${Name(template)}
+    ${Directives(template)}
+    ${Mixins(template)}
+    ${Filters(template)}
+    ${Setup(template)}
+    ${Props(template)}
+    ${Computed(template)}
+    ${Data(template)}
+    ${Hooks(template)}
+    ${Methods(template)}
     ${Watch(template)}
   })`, {
     plugins: ['typescript']

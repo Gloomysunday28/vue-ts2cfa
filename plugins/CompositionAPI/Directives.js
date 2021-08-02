@@ -4,6 +4,5 @@
  */
  module.exports = function Driectives() {
   const { directives } = global.options
-
-  return directives
+  return directives ? directives + ',' : ''
 }

@@ -4,12 +4,13 @@
  */
 module.exports = function Props() {
   const { prop } = global.options
+  if (!prop.length) return ''
 
   return `
     props: {
       ${prop.map(pData => {
-        return `${pData.name}: ${pData.arguments}`
+        return `${pData.name}: ${pData.arguments || JSON.stringify({})}`
       })}
-    }
+    },
   `
 }

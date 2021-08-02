@@ -4,12 +4,12 @@
  */
  module.exports = function Watch() {
   const { watch } = global.options
+  if (!watch.length) return ''
 
   return `
     watch: {
       ${watch.map(pData => {
         const watchFn = pData.watchFn
-        console.log(watchFn[0])
         return `${pData.key}: ${
           watchFn.length === 1 
             ? (watchFn[0].conformMethods ? `function ${watchFn[0].name || ''}(${watchFn[0].params || ''})${watchFn[0].body}` : `${JSON.stringify(watchFn[0].body)}`)
@@ -20,6 +20,6 @@
             })}]`
         }`
       })}
-    }
+    },
   `
 }

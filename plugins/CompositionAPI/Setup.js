@@ -3,6 +3,8 @@ const AddImportNamed = require('../AddImportNamed') // 按需引入API
 
 module.exports = function Setup() {
   const { setup, hooks } = global.options
+  if (!setup.length && !hooks.length) return ''
+
   const compositionHooks = hooks.filter(hook => hook.conformCompositionAPI)
   if (compositionHooks.length) {
     compositionHooks.forEach(hook => {
@@ -31,6 +33,6 @@ module.exports = function Setup() {
           return variable.name
         }).join(',\n')}
       }
-    }
+    },
   `
 }
