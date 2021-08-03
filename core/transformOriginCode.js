@@ -21,7 +21,7 @@ module.exports = function transformOriginCode(vueCompiler, output) {
   })
 
   traverse(ast, transformPlugin())
-
+  
   const { code: transformCode } = generator(ast)
   const outputFileContent = getTemplate(template ? template.content : '', { attrs, transformCode}, styles || '')
   
