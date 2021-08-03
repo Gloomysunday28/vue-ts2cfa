@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const chalk = require('chalk')
 const { parseComponent } = require('vue-template-compiler')
+const { rmAndMkdirSync } = require('../utils/fs')
 
 /**
  * @description
@@ -23,6 +24,10 @@ module.exports = function traverseCode(filePath, output, bar) {
           this.clearGlobalState()
           this.transformOriginCode(parseComponent(fs.readFileSync(depFilePath, 'utf-8')), path.resolve(output, f))
           bar.tick()
+        } else {
+          const outputPath = path.resolve(output, f)
+          rmAndMkdirSync(path.dirname(outputPath), outputPath)
+          fs.writeFileSync(outputPath, fs.readFileSync(depFilePath, 'utf-8'), 'utf-8')
         }
       })
     })

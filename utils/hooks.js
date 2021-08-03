@@ -25,5 +25,8 @@ module.exports = {
     'beforeDestroy',
     'destroyed',
     'errorCaptured',
-  ]
+  ],
+  lifeCycleHasContext(body) {
+    return !body.includes('this.')
+  }
 }

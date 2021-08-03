@@ -1,5 +1,5 @@
 const generator = require('@babel/generator').default
-const { lifeCycleHooks, componsitionAPIHooks } = require('../../utils/hooks')
+const { lifeCycleHooks } = require('../../utils/hooks')
 const { transformHooksName } = require('../../utils')
 
 /**
@@ -45,7 +45,7 @@ module.exports = function(classMethod) {
       if (lifeCycleHooks.includes(name)) {
         const hooksName = transformHooksName(name)
         const code = generator(classMethod.body).code
-        global.options.hooks.push({ async: classMethod.async, conformCompositionAPI: componsitionAPIHooks.includes(name)/* 是否符合compositionAPI lifeCycleHooks引入标准 */, name: hooksName, body: code, params: transformParams })
+        global.options.hooks.push({ async: classMethod.async, name: hooksName, body: code, params: transformParams })
       } else {
         const code = generator(classMethod).code
         global.options.methods.push({ code })

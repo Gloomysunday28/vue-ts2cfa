@@ -59,12 +59,12 @@ module.exports = {
    * @returns 
    */
   transformHooksName(name) {
-    if (componsitionAPIHooks.includes(name)) {
-      name = hooksMapping.get(name) || name
-      return name.replace(/([a-zA-Z])(\w*)/, (c, first, rest) => {
-        return 'on' + first.toUpperCase() + rest
-      })
-    }
+    // if (componsitionAPIHooks.includes(name)) {
+    //   name = hooksMapping.get(name) || name
+    //   return name.replace(/([a-zA-Z])(\w*)/, (c, first, rest) => {
+    //     return 'on' + first.toUpperCase() + rest
+    //   })
+    // }
     
     return name
   }

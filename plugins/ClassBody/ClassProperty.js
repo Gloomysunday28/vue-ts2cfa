@@ -1,5 +1,5 @@
 const generator = require('@babel/generator').default
-const { lifeCycleHooks, componsitionAPIHooks } = require('../../utils/hooks')
+const { lifeCycleHooks } = require('../../utils/hooks')
 const { transformHooksName } = require('../../utils')
 /**
  * @description
@@ -30,14 +30,14 @@ module.exports = function(classProperty) {
       if (value.type === 'FunctionExpression') {
         hooksMap = [value]
       } else if (value.type === 'ArrayExpression') hooksMap = value.elements
+
       hooksMap.forEach(hook => {
-        const conformCompositionAPI = componsitionAPIHooks.includes(name) // 是否符合compositionAPI lifeCycleHooks引入标准
+        const code = generator(hook.body).code
 
         global.options.hooks.push({
           async: hook.async,
-          conformCompositionAPI,
           name: transformHooksName(name),
-          body: generator(hook.body).code,
+          body: code,
           params: hook.params.map(v => `${v.name}${v.typeAnnotation ? generator(v.typeAnnotation).code : ''}`).join(',')
         })
       })

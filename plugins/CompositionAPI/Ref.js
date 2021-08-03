@@ -9,7 +9,7 @@
   return `
     ${ref.map(rData => {
       return `${rData.name}() {
-        const ${rData.name}${rData.typeAnnotation} = this.$refs[${rData.arguments}]
+        const ${rData.name}${rData.typeAnnotation} = this.$refs[${rData.arguments || JSON.stringify(rData.name)}]
         return ${rData.name}
       }`
     })},

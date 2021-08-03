@@ -12,7 +12,7 @@ module.exports = function Setup() {
   }
 
   return `
-    setup() {
+    setup(props, context) {
       ${setup.map(variable => {
         if (isObject(variable.type)) {
           AddImportNamed('reactive')
