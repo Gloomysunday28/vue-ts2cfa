@@ -22,7 +22,7 @@ module.exports = function(classProperty, path) {
       const localeLowerCaseName = expression.callee.name.toLocaleLowerCase()
       const optionContainer = global.options[localeLowerCaseName]
       if (optionContainer) {
-        optionContainer.push({ code, name, typeAnnotation, type, value: generatorValue, arguments: generator(expression.arguments[0]).code })
+        optionContainer.push({ code, name, typeAnnotation, type, value: generatorValue, arguments: generator(expression.arguments[0]).code, restArguments: expression.arguments.slice(1) })
       } else {
         switch (localeLowerCaseName) {
           case 'propsync':

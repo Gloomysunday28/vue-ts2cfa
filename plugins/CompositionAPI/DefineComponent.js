@@ -10,6 +10,7 @@ const Methods = require('./Methods')
 const Hooks = require('./Hooks')
 const Watch = require('./Watch')
 const Components = require('./Components')
+const Model = require('./Model')
 
 module.exports = function DefineComponent(template) {
   return template.ast(`defineComponent({
@@ -18,6 +19,7 @@ module.exports = function DefineComponent(template) {
     ${Directives(template)}
     ${Mixins(template)}
     ${Filters(template)}
+    ${Model(template)}
     ${Setup(template)}
     ${Props(template)}
     ${Computed(template)}
