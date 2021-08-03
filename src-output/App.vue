@@ -8,12 +8,13 @@
 
 <script lang="tsx">
   import { defineComponent, onMounted } from '@vue/composition-api';
-import { Component, Vue } from 'vue-property-decorator';
 import { ConfigProvider } from 'ant-design-vue';
 import zhCN from 'ant-design-vue/es/locale/zh_CN';
 import { State } from 'vuex-class';
 import watermark from 'watermark-dom';
+
 export default defineComponent({
+  
   setup() {
     let zhCN = zhCN;
     onMounted(function () {
@@ -33,6 +34,9 @@ export default defineComponent({
     };
   },
 
+  components: {
+    'a-config-provider': ConfigProvider
+  },
   methods: {
     renderEmpty(h, componentName: string) {
       const style = componentName === 'Select' ? 'text-align: center;margin: 16px 0 40px 0;' : 'text-align: center;margin: 8px 0;';
