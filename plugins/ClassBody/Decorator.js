@@ -16,6 +16,7 @@ module.exports = function Decorator(path) {
           case 'filters':
           case 'components':
           case 'data':
+            pro.trailingComments = undefined
             global.options[name] = generator(pro).code
             break
           case 'props':

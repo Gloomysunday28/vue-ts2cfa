@@ -1,3 +1,4 @@
+const State = require('./State.js')
 const Ref = require('./Ref.js')
 
 /**
@@ -22,16 +23,19 @@ const Ref = require('./Ref.js')
     return tidy
   }, {})
 
-  if (!intactComputed.length && !tidyComputed.length) return ''
+  const computedRef = Ref()
+  const computedState = State()
+  if (!computedState && !computedRef && !intactComputed.length && !Object.keys(tidyComputed).length) return ''
 
   return `
     computed: {
-      ${Object.keys(tidyComputed).map(cpKey => {
+      ${Object.keys(tidyComputed).length ? Object.keys(tidyComputed).map(cpKey => {
         const transformCode = tidyComputed[cpKey]
         return `${cpKey}: {${Object.values(transformCode).join(',')}}`
-      }).join(',')},
-      ${intactComputed.join(',')},
-      ${Ref()}
+      }).join(',') + ',' : ''}
+      ${intactComputed.length ? intactComputed.join(',') + ',' : ''}
+      ${computedRef}
+      ${computedState}
     },
   `
 }

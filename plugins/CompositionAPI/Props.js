@@ -10,7 +10,7 @@ module.exports = function Props() {
     props: {
       ${prop.map(pData => {
         return `${pData.name}: ${pData.arguments || JSON.stringify({})}`
-      })}
+      }).join(',')}
     },
   `
 }

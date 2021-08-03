@@ -9,13 +9,17 @@ module.exports = function({ template }) {
     ImportDeclaration(path) {
       const source = path.node.source.value
       if (source === 'vue-property-decorator') {
-        if (global.isDone) return path.stop()
+        if (global.isDone) return path.skip()
         global.isDone = true
         const ast = template.ast(`import { defineComponent } from '@vue/composition-api'`)
         path.insertBefore(ast)
         global.ImportCompositionApiAST = ast
         path.remove()
       } else path.skip()
+
+      if (source === 'vuex-class') {
+        path.remove()
+      }
     }
   }
 }
