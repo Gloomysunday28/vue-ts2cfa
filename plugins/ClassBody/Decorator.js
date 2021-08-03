@@ -14,6 +14,7 @@ module.exports = function Decorator(path) {
           case 'directives':
           case 'mixins':
           case 'filters':
+          case 'components':
           case 'data':
             global.options[name] = generator(pro).code
             break

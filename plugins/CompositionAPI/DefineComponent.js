@@ -9,10 +9,12 @@ const Computed = require('./Computed')
 const Methods = require('./Methods')
 const Hooks = require('./Hooks')
 const Watch = require('./Watch')
+const Components = require('./Components')
 
 module.exports = function DefineComponent(template) {
   return template.ast(`defineComponent({
     ${Name(template)}
+    ${Components((template))}
     ${Directives(template)}
     ${Mixins(template)}
     ${Filters(template)}

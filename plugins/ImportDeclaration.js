@@ -14,6 +14,7 @@ module.exports = function({ template }) {
         const ast = template.ast(`import { defineComponent } from '@vue/composition-api'`)
         path.insertBefore(ast)
         global.ImportCompositionApiAST = ast
+        path.remove()
       } else path.skip()
     }
   }

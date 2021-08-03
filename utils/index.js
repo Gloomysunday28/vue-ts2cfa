@@ -24,6 +24,7 @@ module.exports = {
       filters: null, // 原封不动的返回
       mixins: null, // 原封不动的返回
       directives: null, // 原封不动的返回
+      components: null, // 原封不动的返回
       prop: [],
       methods: [],
       computed: [],
