@@ -17,7 +17,7 @@ module.exports = function Setup() {
         if (isObject(variable.type)) {
           AddImportNamed('reactive')
 
-          return `let ${variable.name}${variable.typeAnnotation} = reactive(${variable.value})`
+          return `let ${variable.identifier}${variable.typeAnnotation} = reactive(${variable.value})`
         }
 
         return `let ${variable.code}`
@@ -29,7 +29,7 @@ module.exports = function Setup() {
 
       return {
         ${setup.map(variable => {
-          return variable.name
+          return `${variable.name}: ${variable.identifier}`
         }).join(',\n')}
       }
     },

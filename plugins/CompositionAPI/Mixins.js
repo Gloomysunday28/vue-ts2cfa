@@ -4,6 +4,8 @@
  */
  module.exports = function Mixins() {
   const { mixins } = global.options
-
-  return mixins ? mixins + ',' : ''
+  
+  return mixins.length ? `
+    mixins: [${mixins.join(',')}],
+  ` : ''
 }

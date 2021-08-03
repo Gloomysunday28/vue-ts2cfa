@@ -1,3 +1,4 @@
+const t = require('@babel/types')
 const generator = require('@babel/generator').default
 const { lifeCycleHooks } = require('../../utils/hooks')
 
@@ -12,12 +13,19 @@ module.exports = function Decorator(path) {
         switch (name) {
           case 'name':
           case 'directives':
-          case 'mixins':
           case 'filters':
           case 'components':
           case 'data':
             pro.trailingComments = undefined
             global.options[name] = generator(pro).code
+            break
+          case 'mixins':
+            const mixins = pro.value.elements.map(v => v.value)
+            if (global.options.mixins) {
+              mixins.push(...global.options.mixins)
+            }
+
+            global.options.mixins = mixins
             break
           case 'props':
             const properties = pro.value.properties[0]

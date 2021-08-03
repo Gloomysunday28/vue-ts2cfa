@@ -4,7 +4,7 @@
  * @param {ast} ast ast节点
  * @returns {ast} 转换后的ast节点
  */
-module.exports = function({ template }) {
+module.exports = function({ t, template }) {
   return {
     ImportDeclaration(path) {
       const source = path.node.source.value
@@ -14,7 +14,7 @@ module.exports = function({ template }) {
         const ast = template.ast(`import { defineComponent } from '@vue/composition-api'`)
         path.insertBefore(ast)
         global.ImportCompositionApiAST = ast
-        path.remove()
+        path.node.specifiers = [t.importSpecifier(t.identifier('Vue'), t.identifier('Vue'))]
       } else path.skip()
 
       if (source === 'vuex-class') {

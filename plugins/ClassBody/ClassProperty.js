@@ -6,7 +6,7 @@ const { transformHooksName } = require('../../utils')
  *  收集classBody下的变量
  * @param {ast} ast ClassProperty
  */
-module.exports = function(classProperty) {
+module.exports = function(classProperty, path) {
   classProperty.accessibility = undefined
   const name = classProperty.key.name // string
   const value = classProperty.value // ast
@@ -19,9 +19,18 @@ module.exports = function(classProperty) {
   if (decorators) { // @Prop / @Ref..等等属性装饰器
     decorators.forEach((decorator) => {
       const expression = decorator.expression
-      const optionContainer = global.options[expression.callee.name.toLocaleLowerCase()]
+      const localeLowerCaseName = expression.callee.name.toLocaleLowerCase()
+      const optionContainer = global.options[localeLowerCaseName]
       if (optionContainer) {
         optionContainer.push({ code, name, typeAnnotation, type, value: generatorValue, arguments: generator(expression.arguments[0]).code })
+      } else {
+        switch (localeLowerCaseName) {
+          case 'propsync':
+            global.options.prop.push({ computedName: name, name: expression.arguments[0].value, arguments: generator(expression.arguments[1]).code })
+            break
+          default:
+            break
+        }
       }
     })
   } else {
@@ -42,7 +51,9 @@ module.exports = function(classProperty) {
         })
       })
     } else {
-      global.options.setup.push({ code, name, typeAnnotation, type, value: generatorValue})
+      classProperty.key.name = path.scope.generateUidIdentifier(name).name
+      
+      global.options.setup.push({ code: generator(classProperty).code, identifier: classProperty.key.name, name, typeAnnotation, type, value: generatorValue})
     }
   }
 }

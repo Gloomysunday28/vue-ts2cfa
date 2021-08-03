@@ -1,5 +1,6 @@
 const State = require('./State.js')
 const Ref = require('./Ref.js')
+const PropSync = require('./PropSync.js')
 
 /**
  * @description
@@ -11,7 +12,7 @@ const Ref = require('./Ref.js')
 
   const intactComputed = computed.filter(c => typeof c === 'string')
   const tidyComputed = computed.filter(c => typeof c === 'object').reduce((tidy, data) => {
-    const code = `${data.kind + 'ter'}(${data.params})${data.returnType || ''} ${data.code}`
+    const code = `${data.kind}(${data.params})${data.returnType || ''} ${data.code}`
     if (tidy[data.name]) {
       tidy[data.name].code_two = code
     } else {
@@ -25,7 +26,8 @@ const Ref = require('./Ref.js')
 
   const computedRef = Ref()
   const computedState = State()
-  if (!computedState && !computedRef && !intactComputed.length && !Object.keys(tidyComputed).length) return ''
+  const computedPropSync = PropSync()
+  if (!computedPropSync && !computedState && !computedRef && !intactComputed.length && !Object.keys(tidyComputed).length) return ''
 
   return `
     computed: {
@@ -36,6 +38,7 @@ const Ref = require('./Ref.js')
       ${intactComputed.length ? intactComputed.join(',') + ',' : ''}
       ${computedRef}
       ${computedState}
+      ${computedPropSync}
     },
   `
 }
