@@ -3,6 +3,8 @@ const ClassMethod = require('./ClassBody/ClassMethod')
 const ClassProperty = require('./ClassBody/ClassProperty')
 const Decorator = require('./ClassBody/Decorator')
 const windupAST = require('./windupAST')
+const generator = require('@babel/generator').default
+const t = require('@babel/types')
 
 const handlerClassBodyMap = {
   ClassMethod,
@@ -21,6 +23,11 @@ const handlerClassBodyMap = {
     ExportDefaultDeclaration(path) {
       const declaration = path.get('declaration').node
       const decorators = declaration.decorators
+      const name = declaration.id.name
+
+      if (name) {
+        global.options.name = generator(t.objectProperty(t.stringLiteral('name'), t.stringLiteral(name))).code
+      }
 
       if (declaration.type === 'ClassDeclaration') {
         const superClass = declaration.superClass
@@ -40,7 +47,7 @@ const handlerClassBodyMap = {
       }
       
       windupAST() // 分配setup和data, 做收尾工作, 对@Component的不监听
-      
+
       if (decorators) { // 类的装饰者(Component等等，不包含属性装饰和方法装饰， 以上由ClassProperty转译)转由Decorator执行
         decorators.forEach(d => {
           Decorator(d, template)

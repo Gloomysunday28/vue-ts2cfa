@@ -1,5 +1,4 @@
 const generator = require('@babel/generator').default
-const t = require('@babel/types')
 const { lifeCycleHooks } = require('../../utils/hooks')
 const { transformHooksName } = require('../../utils')
 const AddImportNamed = require('../AddImportNamed')

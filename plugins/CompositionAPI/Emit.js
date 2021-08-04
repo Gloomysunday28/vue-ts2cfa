@@ -6,7 +6,6 @@ const generator = require('@babel/generator').default
  */
  module.exports = function Emit(template) {
   const { emit } = global.options
-  console.log('emit', emit.map(v => JSON.stringify(v.watchFn)))/* 2021年08月04日 16时39分29秒 */
   if (!emit.length) return ''
 
   return `
@@ -18,7 +17,6 @@ const generator = require('@babel/generator').default
         const paramsName = (paramsAst || []).map(param => param.name).join(',')
         const index = bodyAST.body.findIndex(v => v.type === 'ReturnStatement')
         var bodyCode = ''
-        console.log('bodyAST', bodyAST)/* 2021年08月04日 17时02分10秒 */
         if (~index) {
           const returnStatement = bodyAST.body[index]
           const returnCode = generator(returnStatement.argument).code
@@ -33,7 +31,6 @@ const generator = require('@babel/generator').default
         }
         
         bodyCode = generator(bodyAST).code
-        console.log('bodyCode', bodyCode)/* 2021年08月04日 17时01分46秒 */
         return `${name}(${params}) ${bodyCode}`
       }).join(',\n')
     }).join(',')},
