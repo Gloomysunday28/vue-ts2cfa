@@ -55,8 +55,7 @@ module.exports = function(classProperty, path) {
       })
     } else {
       classProperty.key.name = path.scope.generateUidIdentifier(name).name
-      
-      global.options.setup.push({ code: generator(classProperty).code, identifier: classProperty.key.name, name, typeAnnotation, type, value: generatorValue})
+      global.options.setup.push({ ast: classProperty, code: generator(classProperty).code, identifier: classProperty.key.name, name, typeAnnotation, type, value: generatorValue})
     }
   }
 }

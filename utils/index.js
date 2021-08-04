@@ -19,8 +19,8 @@ module.exports = {
   initOptions() {
     global.options = {
       setup: [],
+      data: [],
       name: null, // 原封不懂的返回
-      data: null, // 原封不动的返回
       filters: null, // 原封不动的返回
       directives: null, // 原封不动的返回
       components: null, // 原封不动的返回

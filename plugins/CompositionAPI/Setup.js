@@ -10,7 +10,6 @@ module.exports = function Setup() {
       AddImportNamed(hook.name)
     })
   }
-
   return `
     setup(props, context) {
       ${setup.map(variable => {

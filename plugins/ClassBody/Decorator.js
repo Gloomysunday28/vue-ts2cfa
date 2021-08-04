@@ -1,8 +1,9 @@
+const t = require('@babel/types')
 const generator = require('@babel/generator').default
 const { lifeCycleHooks } = require('../../utils/hooks')
 const { isObject } = require('../../utils')
 
-module.exports = function Decorator(path) {
+module.exports = function Decorator(path, template) {
   const callee = path.expression.callee
   const arguments = path.expression.arguments
 
@@ -15,8 +16,17 @@ module.exports = function Decorator(path) {
           case 'directives':
           case 'filters':
           case 'components':
+            pro.trailingComments = undefined
+            global.options[name] = generator(pro).code
+            break
           case 'data':
             pro.trailingComments = undefined
+            const data = global.options.data
+            if (data.length) {
+              pro.body.body.unshift(...data.map(v => template.ast(`let ${v.code}`, { plugins: ['typescript', 'jsx'] })))
+              const returnStatement = pro.body.body.find(v => v.type === 'ReturnStatement')
+              returnStatement.argument.properties.push(...data.map(v => t.objectProperty(t.identifier(v.name), t.identifier(v.identifier))))
+            }
             global.options[name] = generator(pro).code
             break
           case 'mixins':
