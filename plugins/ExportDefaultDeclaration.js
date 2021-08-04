@@ -23,7 +23,7 @@ const handlerClassBodyMap = {
     ExportDefaultDeclaration(path) {
       const declaration = path.get('declaration').node
       const decorators = declaration.decorators
-      const name = declaration.id.name
+      const name = (declaration.id || {}).name
 
       if (name) {
         global.options.name = generator(t.objectProperty(t.stringLiteral('name'), t.stringLiteral(name))).code

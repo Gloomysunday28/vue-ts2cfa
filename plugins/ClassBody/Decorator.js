@@ -72,7 +72,8 @@ module.exports = function Decorator(path, template) {
                     params: (el.params || []).map(v => `${v.name}${v.typeAnnotation ? generator(v.typeAnnotation).code : ''}`).join(','),
                     body: methods ? generator(el.body).code : (isObject(type) ? generator(el).code : el.value),
                     conformMethods: methods,
-                    conformObject: isObject(type)
+                    conformObject: isObject(type),
+                    fromCompoent: true
                   }
                 }))
               } else {
@@ -82,13 +83,15 @@ module.exports = function Decorator(path, template) {
                   params,
                   body: methods ? generator(watch.body).code : (isObject(type) ? generator(value).code : value.value),
                   conformMethods: methods,
-                  conformObject: isObject(type)
+                  conformObject: isObject(type),
+                  fromCompoent: true
                 })
               }
 
               global.options.watch.push({
                 key,
-                watchFn
+                watchFn,
+                fromCompoent: true
               })
             })
 

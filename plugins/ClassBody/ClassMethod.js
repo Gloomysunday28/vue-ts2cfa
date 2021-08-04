@@ -36,6 +36,7 @@ module.exports = function(classMethod) {
         typeAnnotation,
         type,
         value: generatorValue,
+        returnType: generator(returnType).code,
         options: options.map(op => (op.properties || []).map(v => generator(v).code).join(',')),
       }]
       if (optionContainer) {

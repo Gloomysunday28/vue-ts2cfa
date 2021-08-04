@@ -23,6 +23,10 @@ function generatorOptionsWatch(watch) {
 function generatorHandler(watch) {
   const conformMethods = watch.conformMethods
   const conformObject = watch.conformObject
+  const fromCompoent = watch .fromCompoent
+  if (!fromCompoent) {
+    return JSON.stringify(watch.name)
+  }
   return conformMethods ? `${watch.async ? 'async ' : ''}function ${watch.name || ''}(${watch.params ||''}) ${watch.body}` : `${conformObject ? watch.body : JSON.stringify(watch.body)}`
 }
 
