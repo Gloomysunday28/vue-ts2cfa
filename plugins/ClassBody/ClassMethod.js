@@ -26,8 +26,11 @@ module.exports = function(classMethod) {
       const watchFn = [{
         async: classMethod.async,
         name,
+        bodyAST: classMethod.body,
         body,
+        decorator,
         conformMethods: true,
+        paramsAst: params,
         params: transformParams,
         name,
         typeAnnotation,
