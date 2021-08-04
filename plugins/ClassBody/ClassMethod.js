@@ -22,6 +22,7 @@ module.exports = function(classMethod) {
       const expression = decorator.expression
       const optionContainer = global.options[expression.callee.name.toLocaleLowerCase()]
       const body = generator(classMethod.body).code
+      const options = expression.arguments.slice(1)
       const watchFn = [{
         async: classMethod.async,
         name,
@@ -31,10 +32,11 @@ module.exports = function(classMethod) {
         name,
         typeAnnotation,
         type,
-        value: generatorValue
+        value: generatorValue,
+        options: options.map(op => (op.properties || []).map(v => generator(v).code).join(',')),
       }]
       if (optionContainer) {
-        optionContainer.push({ watchFn, key: generator(expression.arguments[0]).code })
+        optionContainer.push({ watchFn, key: generator(expression.arguments[0]).code})
       }
     })
   } else {

@@ -12,12 +12,18 @@ const PropSync = require('./PropSync.js')
 
   const intactComputed = computed.filter(c => typeof c === 'string')
   const tidyComputed = computed.filter(c => typeof c === 'object').reduce((tidy, data) => {
-    const code = `${data.kind}(${data.params})${data.returnType || ''} ${data.code}`
+    const code = `(${data.params})${data.returnType || ''} ${data.code}`
     if (tidy[data.name]) {
-      tidy[data.name].code_two = code
+      tidy[data.name].code_two = {
+        code,
+        kind: data.kind
+      }
     } else {
       tidy[data.name] = {
-        code
+        code: {
+          kind: data.kind,
+          code
+        },
       }
     }
 
@@ -32,8 +38,15 @@ const PropSync = require('./PropSync.js')
   return `
     computed: {
       ${Object.keys(tidyComputed).length ? Object.keys(tidyComputed).map(cpKey => {
-        const transformCode = tidyComputed[cpKey]
-        return `${cpKey}: {${Object.values(transformCode).join(',')}}`
+        const codeMap = Object.values(tidyComputed[cpKey]) 
+        const transformCode = codeMap.map(v => {
+          return `${codeMap.length > 1 ? v.kind + ' ' : ''}${v.code}`
+        })
+        if (transformCode.length > 1) {
+          return `${cpKey}: {${Object.values(transformCode).join(',')}}`
+        } else {
+          return `${cpKey}${Object.values(transformCode).join(',')}`
+        }
       }).join(',') + ',' : ''}
       ${intactComputed.length ? intactComputed.join(',') + ',' : ''}
       ${computedRef}

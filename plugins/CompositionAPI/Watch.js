@@ -1,3 +1,31 @@
+function generatorWatch(watchFn) {
+  return (watchFn.length === 1 
+    ? generatorOptionsWatch(watchFn[0])
+    :
+    `[${watchFn.map(watch => {
+      return generatorOptionsWatch(watch)
+    })}]`)
+}
+
+function generatorOptionsWatch(watch) {
+  const handler = generatorHandler(watch)
+
+  if (watch.options) {
+    return `{
+      handler: ${handler},
+      ${watch.options}
+    }`
+  }
+
+  return handler
+}
+
+function generatorHandler(watch) {
+  const conformMethods = watch.conformMethods
+  const conformObject = watch.conformObject
+  return conformMethods ? `${watch.async ? 'async ' : ''}function ${watch.name || ''}(${watch.params ||''}) ${watch.body}` : `${conformObject ? watch.body : JSON.stringify(watch.body)}`
+}
+
 /**
  * @description
  *  收集Watch, 更新Watch的用法
@@ -10,15 +38,8 @@
     watch: {
       ${watch.map(pData => {
         const watchFn = pData.watchFn
-        return `${pData.key}: ${
-          watchFn.length === 1 
-            ? (watchFn[0].conformMethods ? `${watchFn[0].async ? 'async ' : ''}function ${watchFn[0].name || ''}(${watchFn[0].params || ''})${watchFn[0].body}` : `${JSON.stringify(watchFn[0].body)}`)
-            :
-            `[${watchFn.map(watch => {
-              const conformMethods = watch.conformMethods
-              return conformMethods ? `${watch.async ? 'async ' : ''}function ${watch.name || ''}(${watch.params ||''}) ${watch.body}` : `${JSON.stringify(watch.body)}`
-            })}]`
-        }`
+       
+        return `${pData.key}: ${generatorWatch(watchFn)}`
       })}
     },
   `

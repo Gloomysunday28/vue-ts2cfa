@@ -1,4 +1,5 @@
 const generator = require('@babel/generator').default
+const AddImportNamed = require('../AddImportNamed')
 
 /**
  * @description
@@ -7,15 +8,14 @@ const generator = require('@babel/generator').default
 module.exports = function Props() {
   const { prop, model } = global.options
   if (!prop.length && !model.length) return ''
-  
-  
+
   return `
     props: {
       ${prop.map(pData => {
         return `${pData.name}: ${pData.arguments || JSON.stringify({})}`
-      }).join(',')}
+      }).join(',')},
       ${model.length ? (models = model[0], `
-        ${models.name}: ${models.restArguments.length ? generator(models.restArguments[0]).code : ''}
+        ${models.name}: ${models.restArguments.length ? generator(models.restArguments[0]).code : JSON.stringify({})}
       `) : ''}
     },
   `

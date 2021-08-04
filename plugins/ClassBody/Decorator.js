@@ -1,6 +1,6 @@
-const t = require('@babel/types')
 const generator = require('@babel/generator').default
 const { lifeCycleHooks } = require('../../utils/hooks')
+const { isObject } = require('../../utils')
 
 module.exports = function Decorator(path) {
   const callee = path.expression.callee
@@ -55,12 +55,14 @@ module.exports = function Decorator(path) {
                 watchFn.push(...elements.map(el => {
                   const type = el.type
                   const methods = type === 'FunctionExpression'
+                  
                   return {
                     async: el.async,
                     name: (el.id || {}).name,
                     params: (el.params || []).map(v => `${v.name}${v.typeAnnotation ? generator(v.typeAnnotation).code : ''}`).join(','),
-                    body: methods ? generator(el.body).code : el.value,
-                    conformMethods: methods
+                    body: methods ? generator(el.body).code : (isObject(type) ? generator(el).code : el.value),
+                    conformMethods: methods,
+                    conformObject: isObject(type)
                   }
                 }))
               } else {
@@ -68,8 +70,9 @@ module.exports = function Decorator(path) {
                   async: watch.async,
                   name: watch.key.name,
                   params,
-                  body: methods ? generator(watch.body).code : value.value,
-                  conformMethods: methods
+                  body: methods ? generator(watch.body).code : (isObject(type) ? generator(value).code : value.value),
+                  conformMethods: methods,
+                  conformObject: isObject(type)
                 })
               }
 
