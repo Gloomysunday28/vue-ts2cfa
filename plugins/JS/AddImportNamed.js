@@ -1,4 +1,4 @@
-const { hasImportNamed } = require('../utils')
+const { hasImportNamed } = require('../../utils')
 const t = require('@babel/types')
 
 module.exports = function(name) {

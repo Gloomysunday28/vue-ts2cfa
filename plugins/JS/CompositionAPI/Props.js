@@ -11,9 +11,9 @@ module.exports = function Props() {
 
   return `
     props: {
-      ${prop.map(pData => {
+      ${prop.length ? prop.map(pData => {
         return `${pData.name}: ${pData.arguments || JSON.stringify({})}`
-      }).join(',')},
+      }).join(',') + ',' : ''}
       ${model.length ? (models = model[0], `
         ${models.name}: ${models.restArguments.length ? generator(models.restArguments[0]).code : JSON.stringify({})}
       `) : ''}

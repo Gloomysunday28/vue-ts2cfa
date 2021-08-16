@@ -1,4 +1,4 @@
-const { isObject } = require('../../utils')  
+const { isObject } = require('../../../utils')  
 const AddImportNamed = require('../AddImportNamed') // 按需引入API 
 
 module.exports = function Setup() {

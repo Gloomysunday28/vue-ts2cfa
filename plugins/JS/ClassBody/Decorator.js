@@ -1,13 +1,12 @@
 const t = require('@babel/types')
 const generator = require('@babel/generator').default
-const { lifeCycleHooks } = require('../../utils/hooks')
-const { isObject } = require('../../utils')
+const { lifeCycleHooks } = require('../../../utils/hooks')
+const { isObject } = require('../../../utils')
 
 module.exports = function Decorator(path, template) {
   const callee = path.expression.callee
   const arguments = path.expression.arguments
-
-  if (callee.name === 'Component') {
+  if (callee && callee.name === 'Component') {
     arguments.forEach((arg) => {
       arg.properties.forEach(pro => {
         const { name } = pro.key

@@ -17,7 +17,7 @@ const Emit = require('./Emit')
     methods: {
       ${mutationMethods}
       ${emitMethods}
-      ${methods.map(v => v.code).join(',')},
+      ${methods.length ? methods.map(v => v.code).join(',') + ',' : ''}
       ${tidyWatch.map(v => {
         const { watchFn } = v
         return watchFn.map(watch => {

@@ -48,7 +48,7 @@ function getTotalSize(entry) {
     const stat = fs.statSync(depFilePath)
     if (stat.isDirectory()) {
       getTotalSize(depFilePath)
-    } else if (path.extname(depFilePath) === '.vue') {
+    } else if (path.extname(depFilePath) === '.vue' || path.extname(depFilePath) === '.tsx') {
       totalSize += 1
     }
   })

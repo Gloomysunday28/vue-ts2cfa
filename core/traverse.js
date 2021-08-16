@@ -24,6 +24,10 @@ module.exports = function traverseCode(filePath, output, bar) {
           this.clearGlobalState()
           this.transformOriginCode(parseComponent(fs.readFileSync(depFilePath, 'utf-8')), path.resolve(output, f))
           bar.tick()
+        } else if (path.extname(depFilePath) === '.tsx') {
+          this.clearGlobalState()
+          this.transformOriginCode(fs.readFileSync(depFilePath, 'utf-8' ), path.resolve(output, f), true)
+          bar.tick()
         } else {
           const outputPath = path.resolve(output, f)
           rmAndMkdirSync(path.dirname(outputPath), outputPath)

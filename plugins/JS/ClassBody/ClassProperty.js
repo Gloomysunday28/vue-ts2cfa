@@ -1,6 +1,6 @@
 const generator = require('@babel/generator').default
-const { lifeCycleHooks } = require('../../utils/hooks')
-const { transformHooksName } = require('../../utils')
+const { lifeCycleHooks } = require('../../../utils/hooks')
+const { transformHooksName } = require('../../../utils')
 const AddImportNamed = require('../AddImportNamed')
 
 /**
