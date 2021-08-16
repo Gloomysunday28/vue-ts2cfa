@@ -10,18 +10,20 @@ const { transformHooksName } = require('../../../utils')
 module.exports = function(classMethod) {
   classMethod.accessibility = undefined
   classMethod.trailingComments = undefined
+  // console.log('trailingComments', classMethod.trailingComments)
+  // console.log('leadingComments', classMethod.leadingComments)
   const { decorators, params, returnType/* 函数返回的ts类型 */, kind, key: { name } } = classMethod
   const value = classMethod.value // ast
   const type = (value || {}).type
-  const generatorValue = generator(value).code
-  const typeAnnotation = generator(classMethod.typeAnnotation).code
+  const generatorValue = generator(value, { comments: true }).code
+  const typeAnnotation = generator(classMethod.typeAnnotation, { comments: true }).code
   const transformParams = params.map(v => `${v.name}${v.typeAnnotation ? generator(v.typeAnnotation).code : ''}`).join(', ')
   
   if (decorators) { // @Prop / @Ref..等等属性装饰器
     decorators.forEach((decorator) => {
       const expression = decorator.expression
       const optionContainer = global.options[expression.callee.name.toLocaleLowerCase()]
-      const body = generator(classMethod.body).code
+      const body = generator(classMethod.body, { comments: true }).code
       const options = expression.arguments.slice(1)
       const watchFn = [{
         async: classMethod.async,
@@ -54,6 +56,7 @@ module.exports = function(classMethod) {
         global.options.hooks.push({ async: classMethod.async, name: hooksName, body: code, params: transformParams })
       } else {
         const code = generator(classMethod).code
+        console.log('code', code)
         global.options.methods.push({ code })
       }
     }

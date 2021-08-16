@@ -1,6 +1,6 @@
 const Mutation = require('./Mutation')
 const Emit = require('./Emit')
-
+const generator = require('@babel/generator').default
 /**
  * @description
  *  收集Methods, 更新Methods的用法
@@ -12,12 +12,12 @@ const Emit = require('./Emit')
   const mutationMethods = Mutation()
   const emitMethods = Emit(template)
   if (!tidyWatch.length && !emitMethods && !mutationMethods && !methods.length) return ''
-
+  
   return `
     methods: {
       ${mutationMethods}
       ${emitMethods}
-      ${methods.length ? methods.map(v => v.code).join(',') + ',' : ''}
+      ${methods.length ? methods.map(v => v.code) + ',' : ''}
       ${tidyWatch.map(v => {
         const { watchFn } = v
         return watchFn.map(watch => {

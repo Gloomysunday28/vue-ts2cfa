@@ -28,6 +28,7 @@ module.exports = function DefineComponent(template) {
     ${Methods(template)}
     ${Watch(template)}
   })`, {
-    plugins: ['typescript', 'jsx']
+    plugins: ['typescript', 'jsx'],
+    preserveComments: true
   })
 }

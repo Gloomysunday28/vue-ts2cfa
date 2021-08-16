@@ -36,7 +36,9 @@ module.exports = function transformOriginCode(vueCompiler, output, isTsx) {
 
   traverse(ast, transformPlugin())
   
-  const { code: transformCode } = generator(ast)
+  const ts = generator(ast)
+  console.log(ts)
+  const transformCode = ts.code
   outputFileContent = isTsx ? transformCode : getTemplate(vueCompiler.template ? transfromTemlate : '', { attrs, transformCode}, vueCompiler.styles || '')
   
   rmAndMkdirSync(path.dirname(output), output)

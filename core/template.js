@@ -1,5 +1,7 @@
 module.exports = function getTemplate(template, { attrs, transformCode }, styles) {
-  return `<template>${template}</template>
+  return `<template>
+  ${template}
+</template>
 
 <script ${Object.entries(attrs).map(([key, value]) => `${key}="${value}"`).join(' ')}>
   ${transformCode}
