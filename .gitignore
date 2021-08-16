@@ -1,6 +1,7 @@
 node_modules/
 lib/
 src/
+src-out/
 src-output/
 .cache/
 .DS_Store

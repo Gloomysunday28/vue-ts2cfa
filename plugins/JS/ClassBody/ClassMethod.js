@@ -10,8 +10,7 @@ const { transformHooksName } = require('../../../utils')
 module.exports = function(classMethod) {
   classMethod.accessibility = undefined
   classMethod.trailingComments = undefined
-  // console.log('trailingComments', classMethod.trailingComments)
-  // console.log('leadingComments', classMethod.leadingComments)
+  // console.log('trailingCommnts', classMethod.trailingComments)
   const { decorators, params, returnType/* 函数返回的ts类型 */, kind, key: { name } } = classMethod
   const value = classMethod.value // ast
   const type = (value || {}).type
