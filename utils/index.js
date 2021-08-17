@@ -35,6 +35,7 @@ module.exports = {
       mutation: [],
       model: [],
       emit: [],
+      render: null // render函数
     }
   },
   isObject(type) {
@@ -61,13 +62,18 @@ module.exports = {
    * @returns 
    */
   transformHooksName(name) {
-    // if (componsitionAPIHooks.includes(name)) {
-    //   name = hooksMapping.get(name) || name
-    //   return name.replace(/([a-zA-Z])(\w*)/, (c, first, rest) => {
-    //     return 'on' + first.toUpperCase() + rest
-    //   })
-    // }
-    
-    return name
+    const newLifeCycleName = hooksMapping.get(name)
+    return newLifeCycleName || name
+  },
+  /**
+   * @description
+   *  将其click 转换成 onClick形式
+   * @param {string} str
+  */
+  transformEventName(str) {
+    str = hooksMapping.get(str) || str
+    return str.replace(/([a-zA-Z])(\w*)/, (c, first, rest) => {
+      return 'on' + first.toUpperCase() + rest
+    })
   }
 }

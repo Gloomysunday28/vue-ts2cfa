@@ -1,7 +1,7 @@
+const t = require('@babel/types')
 const generator = require('@babel/generator').default
 const { lifeCycleHooks } = require('../../../utils/hooks')
 const { transformHooksName } = require('../../../utils')
-const AddImportNamed = require('../AddImportNamed')
 
 /**
  * @description
@@ -14,9 +14,9 @@ module.exports = function(classProperty, path) {
   const value = classProperty.value // ast
   const type = (value || {}).type
   const generatorValue = generator(value).code
-  const typeAnnotation = generator(classProperty.typeAnnotation).code
   const code = generator(classProperty).code // string
   const decorators = classProperty.decorators
+  let typeAnnotation = generator(classProperty.typeAnnotation).code
   
   if (decorators) { // @Prop / @Ref..等等属性装饰器
     decorators.forEach((decorator) => {
@@ -24,6 +24,13 @@ module.exports = function(classProperty, path) {
       const localeLowerCaseName = expression.callee.name.toLocaleLowerCase()
       const optionContainer = global.options[localeLowerCaseName]
       if (optionContainer) {
+        if (localeLowerCaseName === 'ref') {
+          const typeName = classProperty.typeAnnotation.typeAnnotation.typeName
+          if (typeName) {
+            classProperty.typeAnnotation.typeAnnotation = t.tsTypeQuery(t.identifier(typeName.name))
+            typeAnnotation = generator(classProperty.typeAnnotation).code
+          }
+        }
         optionContainer.push({ code, name, typeAnnotation, type, value: generatorValue, arguments: generator(expression.arguments[0]).code, restArguments: expression.arguments.slice(1) })
       } else {
         switch (localeLowerCaseName) {

@@ -11,6 +11,7 @@ const Hooks = require('./Hooks')
 const Watch = require('./Watch')
 const Components = require('./Components')
 const Model = require('./Model')
+const Render = require('./Render')
 
 module.exports = function DefineComponent(template) {
   return template.ast(`defineComponent({
@@ -27,6 +28,7 @@ module.exports = function DefineComponent(template) {
     ${Hooks(template)}
     ${Methods(template)}
     ${Watch(template)}
+    ${Render()}
   })`, {
     plugins: ['typescript', 'jsx'],
     preserveComments: true

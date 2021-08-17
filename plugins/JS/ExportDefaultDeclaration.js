@@ -1,6 +1,8 @@
 const DefineComponent = require('./CompositionAPI/DefineComponent')
 const ClassMethod = require('./ClassBody/ClassMethod')
 const ClassProperty = require('./ClassBody/ClassProperty')
+const ObjectMethod = require('./AntdesignVue/ObjectMethod')
+const CallExpression = require('./Vue3/CallExpression')
 const Decorator = require('./ClassBody/Decorator')
 const windupAST = require('./windupAST')
 const generator = require('@babel/generator').default
@@ -25,6 +27,11 @@ const handlerClassBodyMap = {
       const decorators = declaration.decorators
       const name = (declaration.id || {}).name
 
+      path.traverse({
+        ObjectMethod,
+        CallExpression
+      })
+      
       if (name) {
         global.options.name = generator(t.objectProperty(t.stringLiteral('name'), t.stringLiteral(name))).code
       }
@@ -45,7 +52,7 @@ const handlerClassBodyMap = {
           })
         }
       }
-      
+
       windupAST() // 分配setup和data, 做收尾工作, 对@Component的不监听
 
       if (decorators) { // 类的装饰者(Component等等，不包含属性装饰和方法装饰， 以上由ClassProperty转译)转由Decorator执行
