@@ -8,7 +8,7 @@ const PropSync = require('./PropSync.js')
  *  
  */
  module.exports = function Computed() {
-  const { computed } = global.options
+  const { computed, formRef } = global.options
 
   const intactComputed = computed.filter(c => typeof c === 'string')
   const tidyComputed = computed.filter(c => typeof c === 'object').reduce((tidy, data) => {
@@ -33,7 +33,7 @@ const PropSync = require('./PropSync.js')
   const computedRef = Ref()
   const computedState = State()
   const computedPropSync = PropSync()
-  if (!computedPropSync && !computedState && !computedRef && !intactComputed.length && !Object.keys(tidyComputed).length) return ''
+  if (!formRef && !computedPropSync && !computedState && !computedRef && !intactComputed.length && !Object.keys(tidyComputed).length) return ''
 
   return `
     computed: {
@@ -52,6 +52,9 @@ const PropSync = require('./PropSync.js')
       ${computedRef}
       ${computedState}
       ${computedPropSync}
+      ${formRef ? `${formRef}() {
+        return this.$refs.${formRef}
+      }` : ''}
     },
   `
 }

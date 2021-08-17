@@ -14,19 +14,24 @@ const transformHTML = require('../plugins/HTML')
  * @param {string} code 源码字符
  * @returns {string} 返回转换后的代码
  */
-module.exports = function transformOriginCode(vueCompiler, output, isTsx) {
+module.exports = async function transformOriginCode(vueCompiler, output, isTsx) {
   let content = '' // js内容
   let outputFileContent = '' // 转换后的js内容
   let attrs = {} // script标签的属性
+  let transfromTemlate = '' // template内容
   if (isTsx) {
     content = vueCompiler
   } else {
     content = vueCompiler.script.content
     attrs = vueCompiler.script.attrs
   }
-  
+
   // html转译
-  const transfromTemlate = transformHTML(isTsx ? vueCompiler : vueCompiler.template.content )
+  if (isTsx) {
+    transfromTemlate = vueCompiler
+  } else {
+    transfromTemlate = await transformHTML(vueCompiler.template.content )
+  }
 
   // js转译
   const ast = parser.parse(content, {

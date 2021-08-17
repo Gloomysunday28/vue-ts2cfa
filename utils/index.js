@@ -35,7 +35,9 @@ module.exports = {
       mutation: [],
       model: [],
       emit: [],
-      render: null // render函数
+      render: null, // render函数
+      rules: {}, // antdesignvue form rules
+      formRef: '', // 假设每个页面只有一个form组件, formRef指向form组件的ref属性
     }
   },
   isObject(type) {

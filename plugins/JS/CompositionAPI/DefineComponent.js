@@ -12,7 +12,6 @@ const Watch = require('./Watch')
 const Components = require('./Components')
 const Model = require('./Model')
 const Render = require('./Render')
-
 module.exports = function DefineComponent(template) {
   return template.ast(`defineComponent({
     ${Name(template)}
