@@ -31,7 +31,8 @@ module.exports = function traverseCode(filePath, output, bar) {
           this.transformOriginCode(fs.readFileSync(depFilePath, 'utf-8' ), outputPath, true)
           bar.tick()
         } else {
-          if (basename === 'main.ts') {
+          if (basename === 'main.ts' || basename.startsWith('router') || basename.startsWith('store')) {
+            this.clearGlobalState()
             this.transformMainEntryCode(fs.readFileSync(depFilePath, 'utf-8' ), outputPath)
           } else {
             const outputPath = path.resolve(output, f)
