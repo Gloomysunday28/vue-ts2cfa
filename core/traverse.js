@@ -18,20 +18,26 @@ module.exports = function traverseCode(filePath, output, bar) {
       files.forEach(f => {
         const depFilePath = path.resolve(filePath, f)
         const stat = fs.statSync(depFilePath)
+        const basename = path.basename(depFilePath)
+        const outputPath = path.resolve(output, f)
         if (stat.isDirectory()) {
           this.traverse(depFilePath, path.resolve(output, f), bar)
         } else if (path.extname(depFilePath) === '.vue') {
           this.clearGlobalState()
-          this.transformOriginCode(parseComponent(fs.readFileSync(depFilePath, 'utf-8')), path.resolve(output, f))
+          this.transformOriginCode(parseComponent(fs.readFileSync(depFilePath, 'utf-8')), outputPath)
           bar.tick()
         } else if (path.extname(depFilePath) === '.tsx') {
           this.clearGlobalState()
-          this.transformOriginCode(fs.readFileSync(depFilePath, 'utf-8' ), path.resolve(output, f), true)
+          this.transformOriginCode(fs.readFileSync(depFilePath, 'utf-8' ), outputPath, true)
           bar.tick()
         } else {
-          const outputPath = path.resolve(output, f)
-          rmAndMkdirSync(path.dirname(outputPath), outputPath)
-          fs.writeFileSync(outputPath, fs.readFileSync(depFilePath, 'utf-8'), 'utf-8')
+          if (basename === 'main.ts') {
+            this.transformMainEntryCode(fs.readFileSync(depFilePath, 'utf-8' ), outputPath)
+          } else {
+            const outputPath = path.resolve(output, f)
+            rmAndMkdirSync(path.dirname(outputPath), outputPath)
+            fs.writeFileSync(outputPath, fs.readFileSync(depFilePath, 'utf-8'), 'utf-8')
+          }
         }
       })
     })

@@ -20,7 +20,7 @@ module.exports = function TemplateSlots() {
           ${slotScope}
         }` : true,
       }
-
+      
       node.content = [{
         tag: currentNode.tag,
         attrs: {
