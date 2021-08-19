@@ -19,7 +19,6 @@
     ImportDeclaration(path) {
       const ast = path.node
       const source = ast.source.value
-      console.log(source)
       const importSource = sourceMap.find(v => v === source) || ''
 
       if (importSource) {
@@ -28,13 +27,15 @@
           ast.specifiers.splice(index, 1)
         }
       }
-
+      
       if (source === 'vue') {
         addImportName(ast.specifiers, 'createApp')
       } else if (source === 'vue-router') {
         addImportName(ast.specifiers, ['createRouter', 'createWebHistory'])
       } else if (source === 'vuex') {
-        
+        addImportName(ast.specifiers, 'createStore')
+      } else if (source.includes('register')) {
+        ast.specifiers = [t.importDefaultSpecifier(t.identifier('register'))]
       }
     }
   }

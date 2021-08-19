@@ -4,6 +4,8 @@ const chalk = require('chalk')
 const { parseComponent } = require('vue-template-compiler')
 const { rmAndMkdirSync } = require('../utils/fs')
 
+const pluginsOutVue = ['main', 'router', 'store', 'register']
+
 /**
  * @description
  *  递归循环对应的文件
@@ -31,7 +33,7 @@ module.exports = function traverseCode(filePath, output, bar) {
           this.transformOriginCode(fs.readFileSync(depFilePath, 'utf-8' ), outputPath, true)
           bar.tick()
         } else {
-          if (basename === 'main.ts' || basename.startsWith('router') || basename.startsWith('store')) {
+          if (pluginsOutVue.includes(basename.split('.')[0])) {
             this.clearGlobalState()
             this.transformMainEntryCode(fs.readFileSync(depFilePath, 'utf-8' ), outputPath)
           } else {
