@@ -4,10 +4,10 @@ const t = require('@babel/types')
  *  @description
  *  更改ant-design-vue column customeRender的参数
  */
-module.exports = function ObjectMethod(path) {
+module.exports = function ObjectProperty(path) {
   const objectMethodBody = path.node
   const key = objectMethodBody.key.name
-  const params = objectMethodBody.params || []
+  const params = objectMethodBody.value.params || []
   if (key === 'customRender') {
     const hasTsType = params.some(param => param.typeAnnotation)
     if (params.length && params[0].type === 'Identifier') {
@@ -31,7 +31,7 @@ module.exports = function ObjectMethod(path) {
         )
       }
 
-      objectMethodBody.params = [
+      objectMethodBody.value.params = [
         objectPattern
       ]
     }

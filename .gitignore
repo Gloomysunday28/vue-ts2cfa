@@ -1,7 +1,6 @@
 node_modules/
 lib/
-src/
-src-out/
-src-output/
+src*/
 .cache/
+parseError/
 .DS_Store

@@ -2,6 +2,7 @@ const DefineComponent = require('./CompositionAPI/DefineComponent')
 const ClassMethod = require('./ClassBody/ClassMethod')
 const ClassProperty = require('./ClassBody/ClassProperty')
 const ObjectMethod = require('./AntdesignVue/ObjectMethod')
+const ObjectProperty = require('./AntdesignVue/ObjectProperty')
 const CallExpression = require('./Vue3/CallExpression')
 const Decorator = require('./ClassBody/Decorator')
 const windupAST = require('./windupAST')
@@ -29,6 +30,7 @@ const handlerClassBodyMap = {
 
       path.traverse({
         ObjectMethod,
+        ObjectProperty,
         CallExpression
       })
       

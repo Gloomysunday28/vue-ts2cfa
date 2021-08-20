@@ -21,6 +21,10 @@ module.exports = function({ t, template }) {
       if (source === 'vuex-class') {
         path.remove()
       }
+
+      if (source.startsWith('@ndsc')) {
+        path.node.source.value = source.replace('@ndsc', '@/ndsc-vue3') + '/lib'
+      }
     }
   }
 }

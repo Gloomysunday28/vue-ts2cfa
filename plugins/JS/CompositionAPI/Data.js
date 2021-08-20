@@ -7,6 +7,7 @@ const AntdForm = require('../AntdesignVue/AntdForm')
  module.exports = function Data(template) {
   const { data } = global.options
   let formVariable = AntdForm(template)
+
   if (Array.isArray(data)) {
     return data.length ? `
       data() {

@@ -7,6 +7,7 @@ const transformPlugin = require('../plugins/JS')
 const getTemplate = require('./template')
 const { rmAndMkdirSync } = require('../utils/fs')
 const transformHTML = require('../plugins/HTML')
+const GeneratorError = require('../utils/error')
 
 /**
  * @description
@@ -30,7 +31,7 @@ module.exports = async function transformOriginCode(vueCompiler, output, isTsx) 
   if (isTsx) {
     transfromTemlate = vueCompiler
   } else {
-    transfromTemlate = await transformHTML(vueCompiler.template.content )
+    transfromTemlate = await transformHTML(vueCompiler.template?.content, output)
   }
 
   // js转译
@@ -41,11 +42,14 @@ module.exports = async function transformOriginCode(vueCompiler, output, isTsx) 
 
   traverse(ast, transformPlugin())
   
-  const { code: transformCode } = generator(ast)
-  outputFileContent = isTsx ? transformCode : getTemplate(vueCompiler.template ? transfromTemlate : '', { attrs, transformCode}, vueCompiler.styles || '')
+  try {
+    const { code: transformCode } = generator(ast)
+    outputFileContent = isTsx ? transformCode : getTemplate(vueCompiler.template ? transfromTemlate : '', { attrs, transformCode}, vueCompiler.styles || '')
+    
+    rmAndMkdirSync(path.dirname(output), output)
   
-  rmAndMkdirSync(path.dirname(output), output)
-
-  fs.writeFileSync(output, outputFileContent, 'utf-8')
-  return transformCode
+    fs.writeFileSync(output, outputFileContent, 'utf-8')
+  } catch(error) {
+    GeneratorError(new Error(error), output)
+  }
 }

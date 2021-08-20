@@ -15,7 +15,7 @@
         const index = body.findIndex(ast => {
           return ast.type !== 'ImportDeclaration'
         })
-        console.log(index)
+
         if (~index) {
           const ProgramBody = body.slice(index)
           body[index] = t.exportDefaultDeclaration(

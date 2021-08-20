@@ -3,7 +3,6 @@ const template = require('@babel/template').default
 const Program = require('./Program')
 const ImportDeclaration = require('./ImportDeclaration')
 const ExportDefaultDeclaration = require('./ExportDefaultDeclaration')
-const ExpressionStatement = require('./ExpressionStatement')
 
 module.exports = function() {
   return {

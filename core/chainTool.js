@@ -12,8 +12,8 @@ ChainTool.prototype = {
   clearGlobalState() {
     utils.clearGlobalState()
   },
-  transformOriginCode() {
-    transformOriginCode.apply(this, arguments)
+  async transformOriginCode() {
+    await transformOriginCode.apply(this, arguments)
 
     return this
   },
