@@ -35,7 +35,7 @@ function transformMain({
         ), [t.identifier('store')]
       ))
 
-      global.rootPath.node.body.push( // router.isReady().then(() => { app.mount('#app') })
+      path.insertAfter( // router.isReady().then(() => { app.mount('#app') })
         t.expressionStatement(
           t.callExpression(
             t.memberExpression(
@@ -65,6 +65,13 @@ function transformMain({
           )
         )
       )
+
+      path.insertAfter(t.expressionStatement(
+        t.callExpression(
+          t.identifier('register'),
+          [t.identifier('app')]
+        )
+      ))
     }
   }
 }

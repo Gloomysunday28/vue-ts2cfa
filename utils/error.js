@@ -10,12 +10,12 @@ const path = require('path')
 module.exports = function GeneratorError(error, output) {
   const ERROR_PATH = path.resolve(process.cwd(), 'parseError/error.log')
   if (fs.existsSync(ERROR_PATH)) {
-    fs.appendFileSync(ERROR_PATH, '\n' + `Error:\n ${output}: ${error.stack}`)
+    fs.appendFileSync(ERROR_PATH, `Error:\n ${output}: ${error.stack}\n`)
   } else {
     try {
       fs.mkdirSync(path.resolve(process.cwd(), 'parseError'))
     } catch(err) {
     }
-    fs.appendFileSync(ERROR_PATH, '\n' + `Error:\n ${output}: ${error.stack}`)
+    fs.appendFileSync(ERROR_PATH, `Error:\n ${output}: ${error.stack}\n`)
   }
 }
