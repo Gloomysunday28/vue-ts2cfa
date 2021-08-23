@@ -29,7 +29,7 @@ module.exports = function Decorator(path, template) {
             global.options[name] = generator(pro).code
             break
           case 'mixins':
-            const mixins = pro.value.elements.map(v => v.value)
+            const mixins = pro.value.elements.map(v => v.name)
             if (global.options.mixins) {
               mixins.push(...global.options.mixins)
             }

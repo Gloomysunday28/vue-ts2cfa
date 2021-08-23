@@ -5,6 +5,7 @@ const traverse  = require('@babel/traverse').default
 const generator = require('@babel/generator').default
 const transformPlugin = require('../plugins/Ecology')
 const { rmAndMkdirSync } = require('../utils/fs')
+const GeneratorError = require('../utils/error')
 
 /**
  * @description
@@ -13,15 +14,18 @@ const { rmAndMkdirSync } = require('../utils/fs')
  * @returns {string} 返回转换后的代码
  */
 module.exports = async function transformMainEntryCode(content, output) {
-  // js转译
-  const ast = parser.parse(content, {
-    plugins: ['typescript', 'jsx'],
-    sourceType: 'unambiguous'
-  })
-  traverse(ast, transformPlugin(path.basename(output)))
-  const { code: transformCode } = generator(ast)
-  rmAndMkdirSync(path.dirname(output), output)
-  fs.writeFileSync(output, transformCode, 'utf-8')
-
-  return transformCode
+  try {
+    // js转译
+    const ast = parser.parse(content, {
+      plugins: ['typescript', 'jsx'],
+      sourceType: 'unambiguous'
+    })
+    traverse(ast, transformPlugin(path.basename(output)))
+    const { code: transformCode } = generator(ast)
+    rmAndMkdirSync(path.dirname(output), output)
+    fs.writeFileSync(output, transformCode, 'utf-8')
+  } catch(err) {
+    console.log(error.stack)
+    GeneratorError(new Error(error), output)
+  }
 }

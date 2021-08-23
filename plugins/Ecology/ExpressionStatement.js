@@ -66,7 +66,7 @@ function transformMain({
         )
       )
 
-      path.insertAfter(t.expressionStatement(
+      path.insertAfter(t.expressionStatement( // register(app)
         t.callExpression(
           t.identifier('register'),
           [t.identifier('app')]
@@ -82,7 +82,7 @@ function transformRouter({
 }) {
   const callee = ast.callee
   if (callee && callee.type === 'MemberExpression' && callee.object.name === 'Vue' && callee.property.name === 'use') {
-    path.remove()
+    path.remove() // 删除Vue.use
   }
 }
 
@@ -91,11 +91,6 @@ var transformStrategy = {
   router: transformRouter,
   store: transformRouter
 }
-
-// const router = createRouter({
-//   history: createWebHistory(),
-//   routes
-// })
 
 module.exports = function ({
   t

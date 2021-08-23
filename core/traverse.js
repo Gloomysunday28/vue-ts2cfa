@@ -3,6 +3,7 @@ const path = require('path')
 const chalk = require('chalk')
 const { parseComponent } = require('vue-template-compiler')
 const { rmAndMkdirSync } = require('../utils/fs')
+const GeneratorError = require('../utils/error')
 
 const staticTemplatePath = path.resolve(process.cwd(), 'static')
 const pluginsOutVue = ['main', 'router', 'store']
@@ -57,6 +58,7 @@ module.exports = function traverseCode(filePath, output, bar) {
     })
   } catch(error) {
     console.log(chalk.red(new Error(error)))
+    GeneratorError(new Error(error), output)
     process.exit(1)
   }
 }

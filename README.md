@@ -1,6 +1,6 @@
-# Vue TS转换CompositionAPI
+<h1 align=center>Vue TS转换CompositionAPI</h1>
 <p align="center">
-<img src="https://img.shields.io/badge/vue-2.6.0-important" /> <img style="margin-left: 10px" src="https://img.shields.io/badge/vue-3.x-success" />
+<img src="https://img.shields.io/badge/vue-2.6.x-important" /> <img style="margin-left: 10px" src="https://img.shields.io/badge/vue-3.x-success" /> 
 </p>
 
 ## 诞生用途
@@ -35,19 +35,52 @@ or
 - -v: 查看当前版本
 - -e: 传入入口文件夹, 以当前执行命令的目录为根目录, 默认src
 - -o: 传入转换好的文件夹名称, 以当前执行命令的目录为根目录, 默认src-out
+- -elimit: Error日志获取错误的信息的数量, 默认是1
 - -h: 查看命令行帮助
 
-## TransformExample
-## export default
+## TransformOptions
+### export default
+<br>
+
+#### exapm1
 ```javascript
  export default class Name extends Vue {}
 ```
-### result
+#### result
 ```javascript
   defineComponent({})
 ```
 
-## data
+### name
+#### example
+```javascript
+  @Component({
+    name: 'table'
+  })
+  export default class extends Vue{}
+```
+
+```javascript
+  name: 'table'
+```
+
+#### example2
+```javascript
+  @Component({
+    name: 'Table'
+  })
+  export default MixinTable class extends Vue{}
+```
+
+#### result
+```javascript
+  name: 'Table'
+```
+
+
+### data
+
+#### example
 ```javascript
   @Component({
     data() {
@@ -57,7 +90,7 @@ or
     }
   })
 ```
-### result
+#### result
 ```javascript
   defineComponent({
     data() {
@@ -68,14 +101,14 @@ or
   })
 ```
 
-### example2
+#### example2
 ```javascript
   class .... {
     [public | private | proctected] name: string = 'name'
   }
 ```
 
-### result
+#### result
 ```javascript
   defineComponent({
     setup() {
@@ -88,14 +121,14 @@ or
   })
 ```
 
-### example3
+#### example3
 ```javascript
   class .... {
     [public | private | proctected] name: Array<unknown> = []
   }
 ```
 
-### result
+#### result
 ```javascript
   defineComponent({
     setup() {
@@ -108,7 +141,9 @@ or
   })
 ```
 
-## props
+### props
+
+#### example
 ```javascript
   @Prop({ type: String, default: 'name', required: false })
   name: string
@@ -126,7 +161,7 @@ or
   })
 ```
 
-### result
+#### result
 ```javascript
   props: {
     name: {
@@ -136,9 +171,28 @@ or
     }
   }
 ```
-i.g. 同时存在两种Props的话会合并， 相同的名称@Prop会覆盖@Components
+> i.g. 同时存在两种Props的话会合并， 相同的名称@Prop会覆盖@Components
 
-## computed
+### propSync
+```javascript
+  @PropSync('sync', { default: String }) syncProps
+```
+```javascript
+  computed: {
+    syncProps: {
+      get() {
+        return this.sync
+      },
+      set(value) {
+        this.$emit('update:sync', value)
+      }
+    }
+  }
+```
+
+### computed
+
+#### example
 ```javascript
   get name() {
     return this.age
@@ -149,7 +203,7 @@ i.g. 同时存在两种Props的话会合并， 相同的名称@Prop会覆盖@Com
   }
 ```
 
-### result
+#### result
 ```javascript
   computed: {
     name: {
@@ -162,7 +216,7 @@ i.g. 同时存在两种Props的话会合并， 相同的名称@Prop会覆盖@Com
     }
   }
 ```
-### example2
+#### example2
 ```javascript
   @Component({
     computed: {
@@ -173,7 +227,7 @@ i.g. 同时存在两种Props的话会合并， 相同的名称@Prop会覆盖@Com
   })
 ```
 
-### result
+#### result
 ```javascript
   computed: {
     name() {
@@ -182,20 +236,22 @@ i.g. 同时存在两种Props的话会合并， 相同的名称@Prop会覆盖@Com
   }
 ```
 
-## watch
+### watch
+
+#### example
 ```javascript
   @Watch('name')
   getName(value) {}
 ```
 
-### result
+#### result
 ```javascript
   watch: {
     name: function getName(value) {}
   }
 ```
 
-### example2
+#### example2
 ```javascript
   @Component({
     watch: {
@@ -206,14 +262,14 @@ i.g. 同时存在两种Props的话会合并， 相同的名称@Prop会覆盖@Com
   })
 ```
 
-### result
+#### result
 ```javascript
   watch: {
     getName(value) {}
   }
 ```
 
-### example3
+#### example3
 ```javascript
   @Component({
     watch: {
@@ -228,14 +284,14 @@ i.g. 同时存在两种Props的话会合并， 相同的名称@Prop会覆盖@Com
   // 两种同时存在
 ```
 
-### result
+#### result
 ```javascript
   watch: {
     name: [function(value) {}, function getName(value) {}]
   }
 ```
 
-### example4
+#### example4
 ```javascript
   @Component({
     watch: {
@@ -244,27 +300,177 @@ i.g. 同时存在两种Props的话会合并， 相同的名称@Prop会覆盖@Com
   })
 ```
 
-### result
+#### result
 ```javascript
    watch: {
     name: 'getName'
   }
 ```
 
-## ref
+#### example5
 ```javascript
-  @Ref('ref')
-  name
+  @Watch('name', { deep: true })
+  getName() {}
 ```
 
-### result
+#### result
+```javascript
+  methods: {
+    getName() {}
+  },
+  watch: {
+    handler: 'getName',
+    deep: true
+  }
+```
+
+### ref
+#### example
+```javascript
+  @Ref('ref')
+  name: string
+```
+
+#### result
 ```javascript
   computed: {
     name() {
+      const ref: string = this.$refs['ref']
       return this.$refs['ref']
     }
   }
 ```
 
-## filters / directives / mixins
+### mixins
+#### example
+```javascript
+  class xxx extends Mixins(TableMixin)
+```
+#### result
+```javascript
+  mixins: [TableMixin]
+```
+
+
+#### example2
+```javascript
+  @Component({
+    mixins: [TableMixin2]
+  })
+  class xxx extends Mixins(TableMixin)
+```
+#### result
+```javascript
+  mixins: [TableMixin, TableMixins2]
+```
+
+
+### Hooks
+#### example
+```javascript
+  @Component({
+    mounted() {}
+  })
+```
+
+#### result
+```javascript
+  mounted(){}
+```
+
+#### example2
+```javascript
+  @Component({
+    mounted() {
+      console.log('mounted1')
+    }
+  })
+  class extends Vue {
+    mounted() {
+      console.log('mounted2')
+    }
+  }
+```
+
+#### result
+```javascript
+  mounted: [function() {
+      console.log('mounted1')
+    }
+  }, function() {
+      console.log('mounted2')
+    }
+  }]
+```
+
+#### example3
+```javascript
+  beforeDetroy() {}
+  destroyed() {}
+```
+
+#### result
+```javascript
+  beforeUnmount() {}
+  unmounted() {}
+```
+
+### model
+```javascript
+  @Model('change', {
+    type: Array,
+    default: () => []
+  })
+  imgUrls!: string[]
+```
+```javascript
+  model: {
+    prop: 'imgUrls'
+    event: 'change'
+  },
+```
+
+### emit
+```javascript
+  @Emit('changeTrackerIds')
+  changeTrackerIds(arg) {
+    return this.trackIds
+  }
+```
+```javascript
+  methods: {
+    changeTrackerIds(arg) {
+      this.$emit('changeTrackerIds', this.trackIds, arg);
+    }
+  }
+```
+
+### filters / directives / components / render
 原封不动的放回optionsAPI
+
+
+## TransitionVuex
+### State
+```javascript
+  @State('value') stateValue: string
+```
+
+```javascript
+  computed: {
+    stateValue() {
+      const stateValue: string = this.$store.state['value']
+      
+      return stateValue
+    }
+  }
+```
+
+### Mutation
+```javascript
+  @Mutation('setRealTimeTestId') setRealTimeTestId
+```
+```javascript
+  setRealTimeTestId(...rest) {
+    return this.$store.commit.apply(this.$store,['setRealTimeTestId'].concat(rest));
+  }
+```

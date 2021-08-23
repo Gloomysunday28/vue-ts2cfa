@@ -16,33 +16,33 @@ const GeneratorError = require('../utils/error')
  * @returns {string} 返回转换后的代码
  */
 module.exports = async function transformOriginCode(vueCompiler, output, isTsx) {
-  let content = '' // js内容
-  let outputFileContent = '' // 转换后的js内容
-  let attrs = {} // script标签的属性
-  let transfromTemlate = '' // template内容
-  if (isTsx) {
-    content = vueCompiler
-  } else {
-    content = vueCompiler.script.content
-    attrs = vueCompiler.script.attrs
-  }
-
-  // html转译
-  if (isTsx) {
-    transfromTemlate = vueCompiler
-  } else {
-    transfromTemlate = await transformHTML(vueCompiler.template?.content, output)
-  }
-
-  // js转译
-  const ast = parser.parse(content, {
-    plugins: ['decorators-legacy', 'typescript', 'jsx'],
-    sourceType: 'unambiguous'
-  })
-
-  traverse(ast, transformPlugin())
-  
   try {
+    let content = '' // js内容
+    let outputFileContent = '' // 转换后的js内容
+    let attrs = {} // script标签的属性
+    let transfromTemlate = '' // template内容
+    if (isTsx) {
+      content = vueCompiler
+    } else {
+      content = vueCompiler.script.content
+      attrs = vueCompiler.script.attrs
+    }
+
+    // html转译
+    if (isTsx) {
+      transfromTemlate = vueCompiler
+    } else {
+      transfromTemlate = await transformHTML(vueCompiler.template?.content, output)
+    }
+
+    // js转译
+    const ast = parser.parse(content, {
+      plugins: ['decorators-legacy', 'typescript', 'jsx'],
+      sourceType: 'unambiguous'
+    })
+
+    traverse(ast, transformPlugin())
+  
     const { code: transformCode } = generator(ast)
     outputFileContent = isTsx ? transformCode : getTemplate(vueCompiler.template ? transfromTemlate : '', { attrs, transformCode}, vueCompiler.styles || '')
     
@@ -50,6 +50,7 @@ module.exports = async function transformOriginCode(vueCompiler, output, isTsx) 
   
     fs.writeFileSync(output, outputFileContent, 'utf-8')
   } catch(error) {
+    console.log(error.stack)
     GeneratorError(new Error(error), output)
   }
 }
