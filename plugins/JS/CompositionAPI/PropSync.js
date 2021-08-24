@@ -17,5 +17,5 @@
         this.$emit('update:${pData.name}', value)
       }
     }`
-  }).join(',')
+  }).join(',') + ','
 }

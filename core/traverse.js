@@ -5,7 +5,7 @@ const { parseComponent } = require('vue-template-compiler')
 const { rmAndMkdirSync } = require('../utils/fs')
 const GeneratorError = require('../utils/error')
 
-const staticTemplatePath = path.resolve(process.cwd(), 'static')
+const staticTemplatePath = path.resolve(__dirname, '../static')
 const pluginsOutVue = ['main', 'router', 'store']
 const staticFiles = fs.readdirSync(staticTemplatePath)
 

@@ -10,6 +10,8 @@ const { transformHooksName } = require('../../../utils')
  */
 module.exports = function(classProperty, path) {
   classProperty.accessibility = undefined
+  classProperty.readonly = false
+  classProperty.optional = false
   const name = classProperty.key.name // string
   const value = classProperty.value // ast
   const type = (value || {}).type
@@ -21,7 +23,7 @@ module.exports = function(classProperty, path) {
   if (decorators) { // @Prop / @Ref..等等属性装饰器
     decorators.forEach((decorator) => {
       const expression = decorator.expression
-      const localeLowerCaseName = expression.callee.name.toLocaleLowerCase()
+      const localeLowerCaseName = t.isIdentifier(expression) ? expression.name : expression.callee.name.toLocaleLowerCase()
       const optionContainer = global.options[localeLowerCaseName]
       if (optionContainer) {
         if (localeLowerCaseName === 'ref') {
