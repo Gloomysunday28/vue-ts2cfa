@@ -1,4 +1,5 @@
 const fbJson = require('fbbk-json')
+const { node } = require('webpack')
 const GeneratorError = require('../../../utils/error')
 
 /**
@@ -19,7 +20,7 @@ module.exports = function Form(output) {
           (formItem.attrs || (formItem.attrs = {})).name=`${key}`
           const options = decorator.replace(/[\'\`](.)*[\`\']\,/g, '').trim()
           global.options.rules[key] = fbJson.parse(options.replace(/initialValue:\s+(.)*/, function(_c) {
-            node.attrs['v-model']= _c.replace(/initialValue:\s+/, '')
+            node.attrs['v-model:value']= _c.replace(/initialValue:\s+/, '')
             return ''
           }))
         }
@@ -47,6 +48,17 @@ module.exports = function Form(output) {
       global.options.formRef = node.attrs.ref
       node.attrs[':rules'] = 'rules'
       node.attrs.form = false
+      return node
+    })
+
+    tree.match({
+      attrs: {
+        'v-model': true
+      }
+    }, node => {
+      node.attrs['v-model:value'] = node.attrs['v-model']
+      node.attrs['v-model'] = false
+
       return node
     })
   }
