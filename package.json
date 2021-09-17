@@ -1,6 +1,6 @@
 {
   "name": "@kvinc/vue-component-api-command-tool",
-  "version": "0.0.8-alpha",
+  "version": "0.0.9-alpha",
   "description": "Tool for changing vue-property-decorator to component-function-api",
   "main": "./lib/index.js",
   "bin": {

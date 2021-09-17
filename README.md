@@ -38,6 +38,28 @@ or
 - -elimit: Error日志获取错误的信息的数量, 默认是1
 - -h: 查看命令行帮助
 
+## Enviroment
+```javascript
+  "@typescript-eslint/eslint-plugin": "^4.29.3",
+  "@typescript-eslint/parser": "^4.29.3",
+  "@vue/cli-plugin-babel": "~4.5.0",
+  "@vue/cli-plugin-eslint": "~4.5.0",
+  "@vue/cli-plugin-router": "~4.5.0",
+  "@vue/cli-plugin-typescript": "~4.5.0",
+  "@vue/cli-plugin-vuex": "~4.5.0",
+  "@vue/cli-service": "~4.5.0",
+  "@vue/compiler-sfc": "^3.2.10",
+  "eslint-plugin-prettier": "^3.4.1",
+  "@vue/eslint-config-typescript": "^7.0.0",
+  "eslint": "^6.7.2",
+  "eslint-plugin-vue": "^7.17.0",
+  "less": "^4.1.1",
+  "less-loader": "7.3.0",
+  "typescript": "~4.1.5",
+  "vue-router": "~4.0.0",
+  "vuex": "^4.0.2"
+```
+
 ## TransformOptions
 ### export default
 <br>
