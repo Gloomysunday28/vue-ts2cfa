@@ -38,7 +38,7 @@ or
 - -elimit: Error日志获取错误的信息的数量, 默认是1
 - -h: 查看命令行帮助
 
-## Enviroment
+## Environment
 ```javascript
   "@typescript-eslint/eslint-plugin": "^4.29.3",
   "@typescript-eslint/parser": "^4.29.3",
