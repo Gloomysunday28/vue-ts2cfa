@@ -1,5 +1,8 @@
 const t = require('@babel/types')
 const { transformEventName } = require('../../../utils')
+const { lifeCycleHooks } = require('../../../utils/hooks')
+const generator = require('@babel/generator').default
+const { transformHooksName } = require('../../../utils')
 
 /**
  * @description
@@ -41,6 +44,29 @@ module.exports = function CallExpression(path) {
 
       if (name === 'createForm') {
         path.replaceWith(t.memberExpression(t.ThisExpression(), t.identifier('formRef')))
+      }
+
+      if (name === '$once' || name === '$on') {
+        const { arguments } = CallExpressionAST
+        const [ fnName, callback ] = arguments
+        const name = fnName.value
+        if (name.startsWith('hook')) {
+          const hookName = name.split(/hook:(?:\s)+/)[1]
+          if (lifeCycleHooks.includes(hookName)) { // 考虑生命周期是数组的情况
+            let hooksMap = [callback]
+            hooksMap.forEach(hook => {
+              const code = generator(hook.body).code
+      
+              global.options.hooks.push({
+                async: hook.async,
+                name: transformHooksName(hookName),
+                body: code,
+                params: hook.params.map(v => `${v.name}${v.typeAnnotation ? generator(v.typeAnnotation).code : ''}`).join(',')
+              })
+            })
+          }
+          path.remove()
+        }
       }
     }
   }
