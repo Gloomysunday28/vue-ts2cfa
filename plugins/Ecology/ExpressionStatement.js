@@ -10,15 +10,15 @@ function transformMain({
   ast,
   t
 }) {
-  const callee = ast.callee
-
+  const callee = ast.callee || {}
   if (!global.isDone) {
     global.isDone = true
     path.insertBefore(t.variableDeclaration('var', [t.variableDeclarator(t.identifier('app'), t.identifier('undefined'))])) // var app = undefined
   }
 
-  if (callee) {
+  if (callee || right) {
     const property = callee.property
+    
     if (property && property.name === '$mount') {
       const mountElAst = ast.arguments[0] // 获取$mount函数里的值
 
@@ -97,7 +97,8 @@ module.exports = function ({
 }, filename) {
   return {
     ExpressionStatement(path) {
-      const ast = path.node.expression
+      const expression = path.node.expression
+      const ast = expression.type === 'AssignmentExpression' ? expression.right : expression
 
       if (Object.keys(transformStrategy).some(strategy => strategy === filename)) {
         transformStrategy[filename]({

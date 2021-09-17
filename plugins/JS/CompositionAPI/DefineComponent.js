@@ -1,6 +1,8 @@
 const Setup = require('./Setup')
 const Props = require('./Props')
 const Data = require('./Data')
+const Provide = require('./Provide')
+const Inject = require('./Inject')
 const Name = require('./Name')
 const Filters = require('./Filters')
 const Mixins = require('./Mixins')
@@ -24,6 +26,8 @@ module.exports = function DefineComponent(template) {
     ${Props(template)}
     ${Computed(template)}
     ${Data(template)}
+    ${Provide(template)}
+    ${Inject(template)}
     ${Hooks(template)}
     ${Methods(template)}
     ${Watch(template)}

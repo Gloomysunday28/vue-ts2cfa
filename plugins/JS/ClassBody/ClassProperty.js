@@ -44,6 +44,7 @@ module.exports = function(classProperty, path) {
         }
       }
     })
+    console.log('options', global.options)
   } else {
     if (lifeCycleHooks.includes(name)) { // 考虑生命周期是数组的情况
       let hooksMap = null

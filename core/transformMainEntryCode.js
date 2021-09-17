@@ -24,7 +24,7 @@ module.exports = async function transformMainEntryCode(content, output) {
     const { code: transformCode } = generator(ast)
     rmAndMkdirSync(path.dirname(output), output)
     fs.writeFileSync(output, transformCode, 'utf-8')
-  } catch(err) {
+  } catch(error) {
     console.log(error.stack)
     GeneratorError(new Error(error), output)
   }
