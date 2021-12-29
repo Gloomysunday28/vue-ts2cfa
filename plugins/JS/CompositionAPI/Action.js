@@ -8,7 +8,6 @@
   return `
     ${action.map(actionData => {
       const { module } = actionData
-      console.log('module', module)
       return `${actionData.name}(...rest) {
         return this.$store.dispatch(${actionData.arguments}, ...rest)
       }`

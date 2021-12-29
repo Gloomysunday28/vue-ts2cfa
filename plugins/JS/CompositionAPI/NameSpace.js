@@ -35,8 +35,6 @@ function filterTrueSplit(customeASTTransform) {
     getter: []
   })
 
-  console.log('customeASTTransform', customeASTTransform)
-
   return {
     state: filterTrueSplit(customeASTTransform.state),
     mutation: filterTrueSplit(customeASTTransform.mutation),
