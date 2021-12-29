@@ -25,7 +25,6 @@ module.exports = async function transformMainEntryCode(content, output) {
     rmAndMkdirSync(path.dirname(output), output)
     fs.writeFileSync(output, transformCode, 'utf-8')
   } catch(error) {
-    console.log(error.stack)
     GeneratorError(new Error(error), output)
   }
 }

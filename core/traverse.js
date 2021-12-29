@@ -62,7 +62,6 @@ module.exports = function traverseCode(filePath, output, bar) {
       loopFile.call(this, files, filePath, output, bar)
     })
   } catch(error) {
-    console.log(chalk.red(new Error(error)))
     GeneratorError(new Error(error), output)
     process.exit(1)
   }
