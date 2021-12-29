@@ -9,7 +9,7 @@ const Action = require('./Action')
 const Getter = require('./Getter')
 
 function filterTrueSplit(customeASTTransform) {
-  return customeASTTransform.filter(Boolean).join(',')
+  return customeASTTransform.filter(Boolean).join('')
 }
 
  module.exports = function NameSpace() {
