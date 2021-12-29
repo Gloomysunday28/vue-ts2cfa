@@ -7,7 +7,12 @@ const GeneratorError = require('../utils/error')
 
 const staticTemplatePath = path.resolve(__dirname, '../static')
 const pluginsOutVue = ['main', 'router', 'store']
-const staticFiles = fs.readdirSync(staticTemplatePath)
+try {
+  var staticFiles = fs.readdirSync(staticTemplatePath)
+}catch(error) {
+  fs.mkdirSync(staticTemplatePath)
+  staticFiles = fs.readdirSync(staticTemplatePath)
+}
 
 /**
  * @description
