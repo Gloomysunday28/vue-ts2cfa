@@ -22,7 +22,7 @@ module.exports = function() {
           const { declarations } = cPath.node
           for (node of declarations) {
             const  { name: variable } = node.id
-            const { callee: { name } = {}, arguments } = node.init
+            const { callee: { name } = {}, arguments } = node.init || {}
             if (hasVuexClass && name === 'namespace') {
               global.options[variable] = {
                 custom: true,
