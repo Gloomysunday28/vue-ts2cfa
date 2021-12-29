@@ -41,7 +41,7 @@ module.exports = function(classProperty, path) {
           customeAst.push({
             typeAnnotation,
             name,
-            arguments: `${(expression.arguments ? (expression.arguments[0].value = module + '/' + expression.arguments[0].value, generator(expression.arguments[0]).code) : JSON.stringify(name))}`,
+            arguments: `${(expression.arguments ? (expression.arguments[0].value = module + '/' + expression.arguments[0].value, generator(expression.arguments[0]).code) : JSON.stringify(module + '/' + name))}`,
             module
           })
           return
@@ -53,7 +53,7 @@ module.exports = function(classProperty, path) {
             typeAnnotation = generator(classProperty.typeAnnotation).code
           }
         }
-        optionContainer.push({ code, name, typeAnnotation, type, value: generatorValue, arguments: expression.arguments ? generator(expression.arguments[0]).code : JSON.stringify(name), restArguments: expression.arguments ? expression.arguments.slice(1) : [] })
+        optionContainer.push({ code, name, typeAnnotation, type, value: generatorValue, arguments: expression.arguments ? generator(expression.arguments[0]).code : JSON.stringify(module + '/' + name), restArguments: expression.arguments ? expression.arguments.slice(1) : [] })
       } else {
         switch (localeLowerCaseName) {
           case 'propsync':

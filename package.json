@@ -1,6 +1,6 @@
 {
   "name": "@kvinc/vue-component-api-command-tool",
-  "version": "1.0.3",
+  "version": "1.0.6",
   "description": "Tool for changing vue-property-decorator to component-function-api",
   "main": "./lib/index.js",
   "bin": {
@@ -9,7 +9,8 @@
   },
   "target": "node",
   "files": [
-    "lib"
+    "lib",
+    "static"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

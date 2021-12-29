@@ -13,20 +13,22 @@ module.exports = function() {
       path.traverse({
         ImportDeclaration(iPath) {
           const { source = {}, specifiers } = iPath.node
-          if (source.value === 'vuex-class' && specifiers.some(v => v.local.name === 'namespace'))
+          if (source.value === 'vuex-class' && specifiers.some(v => v.local.name === 'namespace')) {
             hasVuexClass = true
+            iPath.remove()
+          }
         },
         VariableDeclaration(cPath) {
           const { declarations } = cPath.node
-
           for (node of declarations) {
             const  { name: variable } = node.id
-            const { callee: { name }, arguments } = node.init
+            const { callee: { name } = {}, arguments } = node.init
             if (hasVuexClass && name === 'namespace') {
               global.options[variable] = {
                 custom: true,
                 module: arguments[0]?.value
-              } 
+              }
+              cPath.remove()
             }
           }
         }
