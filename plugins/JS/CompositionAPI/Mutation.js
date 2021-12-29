@@ -2,8 +2,7 @@
  * @description
  *  收集Mutation, 将其封装成methods使用
  */
- module.exports = function Mutation() {
-  const { mutation } = global.options
+ module.exports = function Mutation(mutation = global.options.mutation) {
   if (!mutation.length) return ''
 
   return `

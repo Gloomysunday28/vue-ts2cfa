@@ -1,15 +1,15 @@
 const State = require('./State.js')
+const Getter = require('./Getter.js')
 const Ref = require('./Ref.js')
 const PropSync = require('./PropSync.js')
-
 /**
  * @description
  *  收集Computed, 完整返回
  *  
  */
- module.exports = function Computed() {
+ module.exports = function Computed(customSpace) {
+  const { state: customState, getter: customGetter } = customSpace
   const { computed, formRef } = global.options
-
   const intactComputed = computed.filter(c => typeof c === 'string')
   const tidyComputed = computed.filter(c => typeof c === 'object').reduce((tidy, data) => {
     const code = `(${data.params})${data.returnType || ''} ${data.code}`
@@ -32,8 +32,10 @@ const PropSync = require('./PropSync.js')
 
   const computedRef = Ref()
   const computedState = State()
+  const computedGetter = Getter()
+
   const computedPropSync = PropSync()
-  if (!formRef && !computedPropSync && !computedState && !computedRef && !intactComputed.length && !Object.keys(tidyComputed).length) return ''
+  if (!customState && !customGetter && !formRef && !computedPropSync && !computedGetter && !computedState && !computedRef && !intactComputed.length && !Object.keys(tidyComputed).length) return ''
 
   return `
     computed: {
@@ -51,6 +53,9 @@ const PropSync = require('./PropSync.js')
       ${intactComputed.length ? intactComputed.join(',') + ',' : ''}
       ${computedRef}
       ${computedState}
+      ${computedGetter}
+      ${customState}
+      ${customGetter}
       ${computedPropSync}
       ${formRef ? `${formRef}() {
         return this.$refs.${formRef}

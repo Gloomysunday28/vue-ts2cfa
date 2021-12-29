@@ -31,7 +31,7 @@ module.exports = function Form(output) {
         return formItem
       })
     } catch(error) {
-      GeneratorError(new Error(error), output)
+      GeneratorError(new Error(error.stack), output)
     }
    
     tree.match({

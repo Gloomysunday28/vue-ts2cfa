@@ -14,7 +14,7 @@ program
   .option('-v, --version', 'output tool version')
   .option('-e, --entry <type>', 'custom entry')
   .option('-o, --output <type>', 'output dirtory')
-  .option('-elimit, --output <type>', 'Error Stack Limit')
+  .option('-elimit, --elimit <type>', 'Error Stack Limit')
 program.parse(process.argv)
 
 const options = program.opts()
@@ -27,7 +27,7 @@ const output = options.output || 'src-output'
 
 const ERRORPATH = path.resolve(process.cwd(), 'parseError')
 
-Error.stackTraceLimit = options.elimit || 0
+Error.stackTraceLimit = options.elimit ? + options.elimit : 0
 rmAndMkdirSync(ERRORPATH, path.resolve(ERRORPATH, 'error.log'))
 
 const totalSize = getTotalSize(entry_file)

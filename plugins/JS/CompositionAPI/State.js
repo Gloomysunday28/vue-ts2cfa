@@ -2,8 +2,7 @@
  * @description
  *  收集Ref, 将其封装成computed使用
  */
- module.exports = function State() {
-  const { state } = global.options
+ module.exports = function State(state = global.options.state) {
   if (!state.length) return ''
 
   return `

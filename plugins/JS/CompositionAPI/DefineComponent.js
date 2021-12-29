@@ -14,7 +14,10 @@ const Watch = require('./Watch')
 const Components = require('./Components')
 const Model = require('./Model')
 const Render = require('./Render')
+const NameSpace = require('./NameSpace')
+
 module.exports = function DefineComponent(template) {
+  const customSpace = NameSpace()
   return template.ast(`defineComponent({
     ${Name(template)}
     ${Components((template))}
@@ -24,12 +27,12 @@ module.exports = function DefineComponent(template) {
     ${Model(template)}
     ${Setup(template)}
     ${Props(template)}
-    ${Computed(template)}
-    ${Data(template)}
+    ${Computed(customSpace)}
+    ${Data(template,)}
     ${Provide(template)}
     ${Inject(template)}
     ${Hooks(template)}
-    ${Methods(template)}
+    ${Methods(template, customSpace)}
     ${Watch(template)}
     ${Render()}
   })`, {

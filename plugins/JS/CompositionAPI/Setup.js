@@ -1,5 +1,6 @@
 const { isObject } = require('../../../utils')  
 const AddImportNamed = require('../AddImportNamed') // 按需引入API 
+const NameSpace = require('./NameSpace.js')
 
 module.exports = function Setup() {
   const { setup, hooks } = global.options

@@ -50,6 +50,6 @@ module.exports = async function transformOriginCode(vueCompiler, output, isTsx) 
   
     fs.writeFileSync(output, outputFileContent, 'utf-8')
   } catch(error) {
-    GeneratorError(new Error(error), output)
+    GeneratorError(new Error(error.stack), output)
   }
 }

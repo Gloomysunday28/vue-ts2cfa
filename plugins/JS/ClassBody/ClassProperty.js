@@ -3,6 +3,15 @@ const generator = require('@babel/generator').default
 const { lifeCycleHooks } = require('../../../utils/hooks')
 const { transformHooksName } = require('../../../utils')
 
+function getName(expression) {
+  const callee = expression.callee
+  const container = t.isIdentifier(expression) || expression.object ? expression :  callee
+  return {
+    localeLowerCaseName: container.object ? container.object.name : container.name.toLocaleLowerCase(),
+    property: container.property
+  }
+}
+
 /**
  * @description
  *  收集classBody下的变量
@@ -23,17 +32,28 @@ module.exports = function(classProperty, path) {
   if (decorators) { // @Prop / @Ref..等等属性装饰器
     decorators.forEach((decorator) => {
       const expression = decorator.expression
-      const localeLowerCaseName = t.isIdentifier(expression) ? expression.name : expression.callee.name.toLocaleLowerCase()
+      const { localeLowerCaseName, property } = getName(expression)
       const optionContainer = global.options[localeLowerCaseName]
       if (optionContainer) {
-        if (localeLowerCaseName === 'ref') {
+        if (optionContainer.custom) { // 通过vuex-class namespace注册
+          var customeAst = optionContainer[property.name.toLocaleLowerCase()] = []
+          const { module } = optionContainer
+          customeAst.push({
+            typeAnnotation,
+            name,
+            arguments: `${(expression.arguments ? (expression.arguments[0].value = module + '/' + expression.arguments[0].value, generator(expression.arguments[0]).code) : JSON.stringify(name))}`,
+            module
+          })
+          return
+        }
+        else if (localeLowerCaseName === 'ref') {
           const typeName = classProperty.typeAnnotation.typeAnnotation.typeName
           if (typeName) {
             classProperty.typeAnnotation.typeAnnotation = t.tsTypeQuery(t.identifier(typeName.name))
             typeAnnotation = generator(classProperty.typeAnnotation).code
           }
         }
-        optionContainer.push({ code, name, typeAnnotation, type, value: generatorValue, arguments: generator(expression.arguments[0]).code, restArguments: expression.arguments.slice(1) })
+        optionContainer.push({ code, name, typeAnnotation, type, value: generatorValue, arguments: expression.arguments ? generator(expression.arguments[0]).code : JSON.stringify(name), restArguments: expression.arguments ? expression.arguments.slice(1) : [] })
       } else {
         switch (localeLowerCaseName) {
           case 'propsync':

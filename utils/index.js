@@ -33,6 +33,8 @@ module.exports = {
       state: [],
       mixins: [], // 原封不动的返回
       mutation: [],
+      action: [],
+      getter: [],
       model: [],
       emit: [],
       provide: [],

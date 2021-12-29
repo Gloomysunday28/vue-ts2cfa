@@ -1,21 +1,25 @@
 const Mutation = require('./Mutation')
+const Action = require('./Action')
 const Emit = require('./Emit')
-const generator = require('@babel/generator').default
 /**
  * @description
  *  收集Methods, 更新Methods的用法
  */
- module.exports = function Methods(template) {
+ module.exports = function Methods(template, customSpace) {
+  const { mutation: customMutation, action: customAction } = customSpace
   const { methods, watch } = global.options
 
   const tidyWatch = watch.filter(v => !v.fromCompoent)
   const mutationMethods = Mutation()
+  const actionMethods = Action()
   const emitMethods = Emit(template)
-  if (!tidyWatch.length && !emitMethods && !mutationMethods && !methods.length) return ''
-  
+  if (!customMutation && !customAction && !tidyWatch.length && !emitMethods && !actionMethods && !mutationMethods && !methods.length) return ''
   return `
     methods: {
       ${mutationMethods}
+      ${actionMethods}
+      ${customMutation}
+      ${customAction}
       ${emitMethods}
       ${methods.length ? methods.map(v => v.code) + ',' : ''}
       ${tidyWatch.map(v => {
