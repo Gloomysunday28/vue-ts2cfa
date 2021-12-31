@@ -1,6 +1,7 @@
 const generator = require('@babel/generator').default
 const { lifeCycleHooks } = require('../../../utils/hooks')
 const { transformHooksName } = require('../../../utils')
+const t = require('@babel/types')
 
 /**
  * @description
@@ -57,6 +58,10 @@ module.exports = function(classMethod) {
         const code = generator(classMethod).code
         if (name === 'render') {
           global.options.render = code          
+        } else if (name === 'constructor') {
+          const superIndex = methodBody.body.findIndex(v => t.isSuper(v.expression.callee))
+          if (~superIndex) methodBody.body.splice(superIndex, 1)
+          global.options.hooks.push({ async: classMethod.async, name: 'created', body: generator(methodBody).code, params: transformParams })
         } else {
           global.options.methods.push({ code })
         }

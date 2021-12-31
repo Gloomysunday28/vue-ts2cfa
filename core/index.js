@@ -27,7 +27,7 @@ const output = options.output || 'src-output'
 
 const ERRORPATH = path.resolve(process.cwd(), 'parseError')
 
-Error.stackTraceLimit = options.elimit ? + options.elimit : 0
+Error.stackTraceLimit = options.elimit ? + options.elimit : 10
 rmAndMkdirSync(ERRORPATH, path.resolve(ERRORPATH, 'error.log'))
 
 const totalSize = getTotalSize(entry_file)
