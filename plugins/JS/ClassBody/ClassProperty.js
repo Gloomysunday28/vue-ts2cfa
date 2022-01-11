@@ -36,7 +36,7 @@ module.exports = function(classProperty, path) {
       const optionContainer = global.options[localeLowerCaseName]
       if (optionContainer) {
         if (optionContainer.custom) { // 通过vuex-class namespace注册
-          var customeAst = optionContainer[property.name.toLocaleLowerCase()] = []
+          var customeAst = optionContainer[property.name.toLocaleLowerCase()] || (optionContainer[property.name.toLocaleLowerCase()] = [])
           const { module } = optionContainer
           customeAst.push({
             typeAnnotation,
@@ -53,7 +53,7 @@ module.exports = function(classProperty, path) {
             typeAnnotation = generator(classProperty.typeAnnotation).code
           }
         }
-        optionContainer.push({ code, name, typeAnnotation, type, value: generatorValue, arguments: expression.arguments ? generator(expression.arguments[0]).code : JSON.stringify(module + '/' + name), restArguments: expression.arguments ? expression.arguments.slice(1) : [] })
+        optionContainer.push({ code, name, typeAnnotation, type, value: generatorValue, arguments: expression.arguments ? generator(expression.arguments[0]).code : JSON.stringify(name), restArguments: expression.arguments ? expression.arguments.slice(1) : [] })
       } else {
         switch (localeLowerCaseName) {
           case 'propsync':
