@@ -58,6 +58,7 @@ or
   "typescript": "~4.1.5",
   "vue-router": "~4.0.0",
   "vuex": "^4.0.2"
+  "vue-loader": "latest"
 ```
 
 ## TransformOptions
