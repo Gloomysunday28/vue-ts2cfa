@@ -1,3 +1,5 @@
+const { addNamed } = require('@babel/helper-module-imports')
+
 /**
  * @description
  *  将ts书写的data属性转换成options.data写法
@@ -8,6 +10,12 @@ module.exports = function() {
   return {
     Program(path) {
       global.rootpath = path
+
+      if (global.options.icons.length) {
+        global.options.icons.forEach(IconName => {
+          addNamed(path, IconName, '@ant-design/icons-vue')
+        })
+      }
 
       let hasVuexClass = false
       path.traverse({

@@ -1,5 +1,4 @@
 const fbJson = require('fbbk-json')
-const { node } = require('webpack')
 const GeneratorError = require('../../../utils/error')
 
 /**

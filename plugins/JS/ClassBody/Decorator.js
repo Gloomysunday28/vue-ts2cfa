@@ -16,6 +16,15 @@ module.exports = function Decorator(path, template) {
           case 'filters':
           case 'components':
             pro.trailingComments = undefined
+
+            if (name === 'components' && global.options.icons.length) {
+              global.options.icons.forEach(iconName => {
+                pro.value.properties.push(t.ObjectProperty(t.identifier(iconName), t.identifier('_' + iconName)))
+              })
+
+              global.options.icons.length = 0
+            }
+
             global.options[name] = generator(pro).code
             break
           case 'data':
