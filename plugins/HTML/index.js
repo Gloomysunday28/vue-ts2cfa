@@ -16,5 +16,8 @@ module.exports = async function(content, output) {
     .use(Icon(output))
     .process(content, { recognizeSelfClosing: true })
 
+  global.options.icons = global.options.icons.filter((item, index, array) => {
+    return array.indexOf(item) === index
+  })
   return res.html
 }

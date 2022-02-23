@@ -10,13 +10,14 @@ module.exports = function Icon(output) {
       tree.match({
         tag: 'a-icon'
       }, node => {
-        const { type = '' } = node.attrs || {}
+        const { type = '', theme } = node.attrs || {}
         const IconName = type.split('-').map((v) => {
           return v.slice(0, 1).toUpperCase() + v.slice(1)
-        }).join('') + 'Outlined'
+        }).join('') + (theme === 'filled' ? 'Filled' :'Outlined')
         global.options.icons.push(IconName)
         node.tag = IconName
         ;(node.attrs || {}).type = false
+        ;(node.attrs || {}).theme = false
         
         return node
       })
